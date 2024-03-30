@@ -6,6 +6,7 @@ class TileType(Enum):
     GRASS = 1
     WATER = 2
     CHASM = 3
+    MOUNTAIN = 4
 
 
 class BaseTile:
@@ -24,3 +25,22 @@ class BaseTile:
 
     def get_contents(self):
         return self._contents
+
+
+# TODO: Separate tile types into separate files
+
+class GrassTile(BaseTile):
+    def __init__(self):
+        self.set_type(TileType.GRASS)
+
+class WaterTile(BaseTile):
+    def __init__(self):
+        self.set_type(TileType.WATER)
+
+class ChasmTile(BaseTile):
+    def __init__(self):
+        self.set_type(TileType.CHASM)
+
+class MountainTile(BaseTile):
+    def __init__(self):
+        self.set_type(TileType.MOUNTAIN)
