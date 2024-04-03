@@ -13,6 +13,15 @@ class BaseTile:
     _type = TileType.UNDEF
     _contents = None
 
+    def __init__(self, type: TileType = TileType.UNDEF, contents=None):
+        self._type = type
+        self._contents = contents
+
+    def __init__(self, type: int = 0, contents=None):
+        # to handle integer TileType values
+        self._type = TileType(type)
+        self._contents = contents
+
     def set_type(self, type: TileType):
         self._type = type
 
