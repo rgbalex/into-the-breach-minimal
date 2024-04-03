@@ -1,6 +1,4 @@
-from unittest.mock import patch, mock_open
-
-from itb.src.map_reader import MapReader
+from itb.map_reader import MapReader
 from .utils import map_all_zeros
 
 

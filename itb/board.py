@@ -1,6 +1,6 @@
 import numpy as np
 
-from itb.src.tiles import BaseTile
+from itb.tiles import BaseTile
 
 
 class Board:

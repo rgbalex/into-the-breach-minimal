@@ -1,6 +1,3 @@
-from itb.src.board import Board
-
-
 class MapReader:
     def __init__(self):
         self._data = [[None for _ in range(8)] for _ in range(8)]
