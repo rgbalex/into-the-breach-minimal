@@ -36,4 +36,4 @@ class BaseTile:
         return self._contents
 
     def __str__(self) -> str:
-        return f"{self.get_type()} {self.get_contents()}"
+        return f"Tile of type {self.get_type()} with contents {self.get_contents()}"
