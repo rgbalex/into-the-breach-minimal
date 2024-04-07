@@ -10,10 +10,10 @@ def main():
     b = Board()
     b.import_map(m.get_data())
 
-    x = np.array([1, 2, 3])
+    x = np.array([(1), (2), (3)])
 
     def func(x):
-        x[0] = 10
+        x[0] = (10)
         yield x
     
     print(func(x).__next__())
