@@ -10,4 +10,3 @@ class MapReader:
 
     def get_data(self) -> list[list[int]]:
         return self._data
-    
