@@ -33,3 +33,7 @@ class TestBoard(unittest.TestCase):
         tile = BaseTile()
         self.board.set_tile(0, 0, tile)
         self.assertEqual(self.board._board[0, 0], tile)
+
+if __name__ == '__main__':
+    unittest.main()
+    
