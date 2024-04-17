@@ -11,7 +11,7 @@ class Board:
         # self._tiles = np.array([[BaseTile(tile) for tile in row] for row in map_data])
         self._tiles = np.array(map_data)
         # LUT for entities
-        self._entities = {}
+        self._entities = []
 
     def get_tile(self, x: int, y: int) -> int:
         return self._tiles[y][x]
@@ -21,3 +21,9 @@ class Board:
 
     def __str__(self) -> str:
         return "\n".join([str(row) for row in self._tiles])
+
+    def get_entities(self):
+        return self._entities
+
+    def add_entity(self, type: int, health: int, x: int, y: int):
+        self._entities.append((type, health, x, y))

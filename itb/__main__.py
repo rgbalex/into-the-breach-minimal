@@ -1,11 +1,11 @@
 import numpy as np
 from itb.board import Board
-from itb.map_reader import MapReader
+from itb.map_reader import LevelImporter
 
 
 def main():
-    m = MapReader()
-    m.load_map("itb/maps/test-01.txt")
+    m = LevelImporter()
+    m.load_level("itb/maps/test-01.txt")
 
     b = Board()
     b.import_map(m.get_data())
