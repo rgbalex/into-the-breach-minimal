@@ -1,6 +1,7 @@
 import unittest
 from itb.tiles import *
 
+
 class TestTiles(unittest.TestCase):
 
     def test_grass_tile_instance(self):
@@ -30,5 +31,6 @@ class TestTiles(unittest.TestCase):
         t = BaseTile()
         self.assertEqual(t.get_type(), TileType.UNDEF)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
