@@ -5,7 +5,6 @@ from fluentcheck import Check
 
 
 class TestSample(unittest.TestCase):
-
     def test_pytest_is_working(self):
         self.assertIsNotNone(Check)
         self.assertIsNotNone(pt)

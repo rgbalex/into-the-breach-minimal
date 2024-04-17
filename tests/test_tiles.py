@@ -3,7 +3,6 @@ from itb.tiles import *
 
 
 class TestTiles(unittest.TestCase):
-
     def test_grass_tile_instance(self):
         t = BaseTile()
         t.set_type(TileType.GRASS)

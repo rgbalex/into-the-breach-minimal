@@ -10,7 +10,7 @@ class TestBoard(unittest.TestCase):
         self.map_data = [[1, 2, 3], [3, 2, 1], [0, 0, 0]]
 
     def test_import_map(self):
-        self.board.import_map(self.map_data)
+        self.board.import_level(self.map_data, [])
         expected_tiles = np.array(self.map_data)
 
         # Check if the shapes of the two arrays are equal
@@ -24,14 +24,14 @@ class TestBoard(unittest.TestCase):
                 )
 
     def test_get_tile(self):
-        self.board.import_map(self.map_data)
+        self.board.import_level(self.map_data, [])
         tile = self.board.get_tile(1, 1)
         # self.assertIsInstance(tile.__class__, int)
         self.assertIsInstance(tile, np.int32)
 
     # this actually tests nothing?
     def test_set_tile(self):
-        self.board.import_map(self.map_data)
+        self.board.import_level(self.map_data, [])
         self.board.set_tile(0, 0, 1)
         self.assertEqual(self.board._tiles[0, 0], 1)
 

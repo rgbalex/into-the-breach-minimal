@@ -1,6 +1,6 @@
 import tempfile
 import unittest
-from itb.map_reader import LevelImporter
+from itb.level_importer import LevelImporter
 
 
 class TestMapReader(unittest.TestCase):
