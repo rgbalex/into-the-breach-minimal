@@ -1,11 +1,12 @@
 import numpy as np
 
-from itb.tiles import BaseTile
+from itb.entities.EntityDictionary import EntityDictionary
 
 
 class Board:
     # _tiles = np.array(object=BaseTile)
     _tiles = np.array(object=np.int32)
+    _entity_dict = EntityDictionary()
 
     def import_level(self, map_data: list[list[int]], entities: list[tuple[int]]):
         # self._tiles = np.array([[BaseTile(tile) for tile in row] for row in map_data])
@@ -29,10 +30,10 @@ class Board:
         return "\n".join([str(row) for row in self._tiles])
 
     def __str__(self) -> str:
-        return f"""
-Entities:
-{self._entities}
-
-Tiles:
-{self._tiles}
-"""
+        output = "Entities:\n"
+        for i in self._entities:
+            output += f"{self._entity_dict.get_entity(i)}\n"
+        output += "\nTiles:\n"
+        output += "\n".join([str(row) for row in self._tiles])
+        output += "\n"
+        return output

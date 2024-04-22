@@ -19,7 +19,7 @@ class LevelImporter:
                         self._data[y][x] = int(tile)
                 else:
                     self._entities.append(tuple([int(n) for n in line.split()]))
-        print("Done processing level file.")
+        print("Done processing level file.\n")
 
     def get_tiles(self) -> list[list[int]]:
         return self._data

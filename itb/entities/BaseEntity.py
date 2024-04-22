@@ -21,6 +21,16 @@ class BaseEntity:
     default_health = -1
     default_damage = -1
 
+    def __init__(self, ctor: tuple[int, int, int, int]):
+        (type, health, x, y) = ctor
+        self._type = EntityType(type)
+        self.set_defaults()
+        self._health = self.default_health if health == 0 else health
+        self._position = (x, y)
+
+    def set_defaults(self):
+        raise NotImplementedError
+
     def get_type(self):
         return self._type
 
@@ -46,4 +56,4 @@ class BaseEntity:
         raise NotImplementedError
 
     def __str__(self) -> str:
-        return f"Entity of type {self.get_type()} with health {self.get_health()} at position {self.get_position()}"
+        return f"Type: {self.get_type()}\t Health: {self.get_health()}\t Position: {self.get_position()}"
