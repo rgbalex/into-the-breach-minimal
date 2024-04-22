@@ -7,6 +7,7 @@ class Board:
     # _tiles = np.array(object=BaseTile)
     _tiles = np.array(object=np.int32)
     _entity_dict = EntityDictionary()
+    _entities = []
 
     def import_level(self, map_data: list[list[int]], entities: list[tuple[int]]):
         # self._tiles = np.array([[BaseTile(tile) for tile in row] for row in map_data])
