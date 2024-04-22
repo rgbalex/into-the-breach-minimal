@@ -16,8 +16,11 @@ class EntityType(Enum):
 class BaseEntity:
     _type = EntityType.UNDEF
     _health = 0
-    _position = (-1, -1)
 
+    x = -1
+    y = -1
+
+    player = None
     default_health = -1
     default_damage = -1
 
@@ -26,7 +29,8 @@ class BaseEntity:
         self._type = EntityType(type)
         self.set_defaults()
         self._health = self.default_health if health == 0 else health
-        self._position = (x, y)
+        self.x = x
+        self.y = y
 
     def set_defaults(self):
         raise NotImplementedError
@@ -44,10 +48,12 @@ class BaseEntity:
         self._health = health
 
     def get_position(self):
-        return self._position
+        return (self.x, self.y)
 
     def set_position(self, position: tuple[int, int]):
-        self._position = position
+        x, y = position
+        self.x = x
+        self.y = y
 
     def get_available_moves(self):
         raise NotImplementedError

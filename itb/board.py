@@ -27,6 +27,27 @@ class Board:
     def add_entity(self, type: int, health: int, x: int, y: int):
         self._entities.append((type, health, x, y))
 
+    def get_available_moves(self, mode: str):
+        states = []
+        if mode == "player":
+            pass
+        elif mode == "enemy":
+            for e in self._entities:
+                entity = self._entity_dict.get_entity(e)
+                if not entity.player:
+                    moves = entity.get_available_moves()
+                    # Check if the move is valid
+                    for move in moves:
+                        try:
+                            if self._tiles[entity.y + move[1]][entity.x + move[0]] != 0:
+                                states.append((entity.x, entity.y, entity.x + move[0], entity.y + move[1]))
+                        except IndexError:
+                            # Out of bounds
+                            pass
+        else:
+            raise ValueError("Invalid mode")
+        return states
+
     def __repr__(self) -> str:
         return "\n".join([str(row) for row in self._tiles])
 
