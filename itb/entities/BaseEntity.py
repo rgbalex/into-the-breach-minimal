@@ -32,6 +32,9 @@ class BaseEntity:
         self.x = x
         self.y = y
 
+    def is_player(self):
+        return self.player
+
     def set_defaults(self):
         raise NotImplementedError
 

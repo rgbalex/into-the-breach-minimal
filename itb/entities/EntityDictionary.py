@@ -11,5 +11,5 @@ class EntityDictionary:
         # self.entity_dict[EntityType.BUG_SHOOTER] = BugShooter
         # self.entity_dict[EntityType.BUG_ELITE] = BugElite
 
-    def get_entity(self, ctor: tuple[int, int, int, int]):
+    def create_entity(self, ctor: tuple[int, int, int, int]):
         return self.entity_dict[EntityType(ctor[0])](ctor)

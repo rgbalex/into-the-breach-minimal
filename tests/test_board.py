@@ -39,7 +39,7 @@ class TestBoard(unittest.TestCase):
         self.board.import_level(self.map_data, [(4, 0, 0, 0)])
         moves = list(self.board.get_available_moves(mode="enemy"))
         self.assertEqual(
-            moves, [(0, 0, 0, 1), (0, 0, 1, 0), (0, 0, 0, 2), (0, 0, 2, 0)]
+            moves, [[(4, 0, 0, 1)], [(4, 0, 1, 0)], [(4, 0, 0, 2)], [(4, 0, 2, 0)]]
         )
 
     def test_get_multiple_enemy_entity_moves(self):
@@ -49,14 +49,34 @@ class TestBoard(unittest.TestCase):
             moves,
             # never diagonal move
             [
-                (0, 0, 0, 1),
-                (0, 0, 1, 0),
-                (0, 0, 0, 2),
-                (0, 0, 2, 0),
-                (2, 2, 2, 1),
-                (2, 2, 1, 2),
-                (2, 2, 2, 0),
-                (2, 2, 0, 2),
+                [(4, 0, 2, 2), (4, 0, 0, 1)],
+                [(4, 0, 2, 2), (4, 0, 1, 0)],
+                [(4, 0, 2, 2), (4, 0, 0, 2)],
+                [(4, 0, 2, 2), (4, 0, 2, 0)],
+                [(4, 0, 0, 0), (4, 0, 2, 1)],
+                [(4, 0, 0, 0), (4, 0, 1, 2)],
+                [(4, 0, 0, 0), (4, 0, 2, 0)],
+                [(4, 0, 0, 0), (4, 0, 0, 2)],
+            ],
+        )
+
+    def test_get_multiple_enemy_with_friendly_entity_moves(self):
+        self.board.import_level(
+            self.map_data, [(1, 0, 2, 0), (4, 0, 0, 0), (4, 0, 2, 2)]
+        )
+        moves = list(self.board.get_available_moves(mode="enemy"))
+        self.assertEqual(
+            moves,
+            # never diagonal move
+            [
+                [(1, 0, 2, 0), (4, 0, 2, 2), (4, 0, 0, 1)],
+                [(1, 0, 2, 0), (4, 0, 2, 2), (4, 0, 1, 0)],
+                [(1, 0, 2, 0), (4, 0, 2, 2), (4, 0, 0, 2)],
+                [(1, 0, 2, 0), (4, 0, 2, 2), (4, 0, 2, 0)],
+                [(4, 0, 0, 0), (1, 0, 2, 0), (4, 0, 2, 1)],
+                [(4, 0, 0, 0), (1, 0, 2, 0), (4, 0, 1, 2)],
+                [(4, 0, 0, 0), (1, 0, 2, 0), (4, 0, 2, 0)],
+                [(4, 0, 0, 0), (1, 0, 2, 0), (4, 0, 0, 2)],
             ],
         )
 

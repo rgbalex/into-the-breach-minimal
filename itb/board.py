@@ -34,25 +34,33 @@ class Board:
             pass
         elif mode == "enemy":
             for e in self._entities:
-                entity = self._entity_dict.get_entity(e)
-                if not entity.player:
-                    moves = entity.get_available_moves()
-                    # Check if the move is valid
-                    for move in moves:
-                        try:
-                            if entity.x + move[0] < 0 or entity.y + move[1] < 0:
-                                # Accounts for python allowing negative indexing to loop around
-                                raise IndexError
-                            if self._tiles[entity.y + move[1]][entity.x + move[0]] != 0:
-                                # Use of generator statement improves performance
-                                yield (
-                                    entity.x,
-                                    entity.y,
-                                    entity.x + move[0],
-                                    entity.y + move[1],
-                                )
-                        except IndexError:
+                entity = self._entity_dict.create_entity(e)
+
+                if entity.is_player():
+                    continue
+
+                # Check if the move is valid
+                for move in entity.get_available_moves():
+                    try:
+
+                        if entity.x + move[0] < 0 or entity.y + move[1] < 0:
+                            # Accounts for python allowing negative indexing to loop around
+                            raise IndexError
+
+                        if self._tiles[entity.y + move[1]][entity.x + move[0]] in [
+                            -1,
+                            0,
+                        ]:
                             continue
+
+                        # Use of generator statement improves performance
+                        # can be optimised with pointer arithmetic if needed
+                        yield list(set(self._entities) - set([e])) + [
+                            (e[0], e[1], e[2] + move[0], e[3] + move[1])
+                        ]
+
+                    except IndexError:
+                        continue
         else:
             raise ValueError("Invalid mode")
 
@@ -62,7 +70,7 @@ class Board:
     def __str__(self) -> str:
         output = "Entities:\n"
         for i in self._entities:
-            output += f"{self._entity_dict.get_entity(i)}\n"
+            output += f"{self._entity_dict.create_entity(i)}\n"
         output += "\nTiles:\n"
         output += "\n".join([str(row) for row in self._tiles])
         output += "\n"
