@@ -1,4 +1,4 @@
-from .BaseEntity import BaseEntity
+from .BaseEntity import BaseEntity, PlayerType
 
 
 class MechMelee(BaseEntity):
@@ -13,4 +13,4 @@ class MechMelee(BaseEntity):
     def set_defaults(self):
         self.default_health = 4
         self.default_damage = 2
-        self.player = True
+        self.player = PlayerType.MECH

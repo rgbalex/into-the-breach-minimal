@@ -1,7 +1,8 @@
 import unittest
 import numpy as np
+
 from itb.board import Board
-from itb.tiles import BaseTile
+from itb.entities import PlayerType
 
 
 class TestBoard(unittest.TestCase):
@@ -37,14 +38,14 @@ class TestBoard(unittest.TestCase):
 
     def test_get_single_enemy_entity_moves(self):
         self.board.import_level(self.map_data, [(4, 0, 0, 0)])
-        moves = list(self.board.get_available_moves(mode="enemy"))
+        moves = list(self.board.get_available_moves(mode=PlayerType.BUG))
         self.assertEqual(
             moves, [[(4, 0, 0, 1)], [(4, 0, 1, 0)], [(4, 0, 0, 2)], [(4, 0, 2, 0)]]
         )
 
     def test_get_multiple_enemy_entity_moves(self):
         self.board.import_level(self.map_data, [(4, 0, 0, 0), (4, 0, 2, 2)])
-        moves = list(self.board.get_available_moves(mode="enemy"))
+        moves = list(self.board.get_available_moves(mode=PlayerType.BUG))
         self.assertEqual(
             moves,
             # never diagonal move
@@ -64,7 +65,7 @@ class TestBoard(unittest.TestCase):
         self.board.import_level(
             self.map_data, [(1, 0, 2, 0), (4, 0, 0, 0), (4, 0, 2, 2)]
         )
-        moves = list(self.board.get_available_moves(mode="enemy"))
+        moves = list(self.board.get_available_moves(mode=PlayerType.BUG))
         self.assertEqual(
             moves,
             # never diagonal move

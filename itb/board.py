@@ -1,6 +1,6 @@
 import numpy as np
 
-from itb.entities.EntityDictionary import EntityDictionary
+from itb.entities import EntityDictionary, PlayerType
 
 
 class Board:
@@ -25,42 +25,41 @@ class Board:
     def add_entity(self, type: int, health: int, x: int, y: int):
         self._entities.append((type, health, x, y))
 
-    def get_available_moves(self, mode: str):
-        # initial if statement can be removed once both picees of code are written
-        # by merging the if statement with check for player or enemy
-        if mode == "player":
-            pass
-        elif mode == "enemy":
-            for e in self._entities:
-                entity = self._entity_dict.create_entity(e)
+    def get_available_moves(self, mode: PlayerType):
+        
+        if mode not in [PlayerType.MECH, PlayerType.BUG]:
+            raise ValueError("Mode must be either MECH or BUG")
 
-                if entity.is_player():
-                    continue
+        for e in self._entities:
+            entity = self._entity_dict.create_entity(e)
 
-                # Check if the move is valid
-                for move in entity.get_available_moves():
-                    try:
+            if entity.is_enemy(mode):
+                # if the entity is an enemy, dont calculate their moves
+                # as it is not their turn
+                continue
 
-                        if entity.x + move[0] < 0 or entity.y + move[1] < 0:
-                            # Accounts for python allowing negative indexing to loop around
-                            raise IndexError
+            # Check if the move is valid
+            for move in entity.get_available_moves():
+                try:
 
-                        if self._tiles[entity.y + move[1]][entity.x + move[0]] in [
-                            -1,
-                            0,
-                        ]:
-                            continue
+                    if entity.x + move[0] < 0 or entity.y + move[1] < 0:
+                        # Accounts for python allowing negative indexing to loop around
+                        raise IndexError
 
-                        # Use of generator statement improves performance
-                        # can be optimised with pointer arithmetic if needed
-                        yield list(set(self._entities) - set([e])) + [
-                            (e[0], e[1], e[2] + move[0], e[3] + move[1])
-                        ]
-
-                    except IndexError:
+                    if self._tiles[entity.y + move[1]][entity.x + move[0]] in [
+                        -1,
+                        0,
+                    ]:
                         continue
-        else:
-            raise ValueError("Invalid mode")
+
+                    # Use of generator statement improves performance
+                    # can be optimised with pointer arithmetic if needed
+                    yield list(set(self._entities) - set([e])) + [
+                        (e[0], e[1], e[2] + move[0], e[3] + move[1])
+                    ]
+
+                except IndexError:
+                    continue
 
     # Unsure if used
     # def __repr__(self) -> str:

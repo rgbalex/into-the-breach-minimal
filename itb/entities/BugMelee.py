@@ -1,4 +1,4 @@
-from .BaseEntity import BaseEntity
+from .BaseEntity import BaseEntity, PlayerType
 
 
 class BugMelee(BaseEntity):
@@ -11,4 +11,4 @@ class BugMelee(BaseEntity):
     def set_defaults(self):
         self.default_health = 3
         self.default_damage = 1
-        self.player = False
+        self.player = PlayerType.BUG

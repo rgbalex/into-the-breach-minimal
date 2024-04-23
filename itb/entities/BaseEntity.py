@@ -13,6 +13,12 @@ class EntityType(Enum):
     BUG_ELITE = 6
 
 
+class PlayerType(Enum):
+    UNDEF = 0
+    MECH = 1
+    BUG = 2
+
+
 class BaseEntity:
     _type = EntityType.UNDEF
     _health = 0
@@ -20,7 +26,7 @@ class BaseEntity:
     x = -1
     y = -1
 
-    player = None
+    player = PlayerType.UNDEF
     default_health = -1
     default_damage = -1
 
@@ -32,8 +38,8 @@ class BaseEntity:
         self.x = x
         self.y = y
 
-    def is_player(self):
-        return self.player
+    def is_enemy(self, _type: EntityType):
+        return self.player != _type
 
     def set_defaults(self):
         raise NotImplementedError
