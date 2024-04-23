@@ -28,7 +28,8 @@ class Board:
         self._entities.append((type, health, x, y))
 
     def get_available_moves(self, mode: str):
-        states = []
+        # initial if statement can be removed once both picees of code are written
+        # by merging the if statement with check for player or enemy
         if mode == "player":
             pass
         elif mode == "enemy":
@@ -39,14 +40,21 @@ class Board:
                     # Check if the move is valid
                     for move in moves:
                         try:
+                            if entity.x + move[0] < 0 or entity.y + move[1] < 0:
+                                # Accounts for python allowing negative indexing to loop around
+                                raise IndexError
                             if self._tiles[entity.y + move[1]][entity.x + move[0]] != 0:
-                                states.append((entity.x, entity.y, entity.x + move[0], entity.y + move[1]))
+                                # Use of generator statement improves performance
+                                yield (
+                                    entity.x,
+                                    entity.y,
+                                    entity.x + move[0],
+                                    entity.y + move[1],
+                                )
                         except IndexError:
-                            # Out of bounds
-                            pass
+                            continue
         else:
             raise ValueError("Invalid mode")
-        return states
 
     def __repr__(self) -> str:
         return "\n".join([str(row) for row in self._tiles])

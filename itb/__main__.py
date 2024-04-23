@@ -20,8 +20,10 @@ def main():
         else:
             print("Enemy's turn")
 
-            print(b.get_available_moves(mode="enemy"))
-            
+            x = b.get_available_moves(mode="enemy")
+            for move in x:
+                print(move)
+
             players_turn = True
 
 

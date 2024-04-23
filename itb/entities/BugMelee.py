@@ -12,4 +12,3 @@ class BugMelee(BaseEntity):
         self.default_health = 3
         self.default_damage = 1
         self.player = False
-        

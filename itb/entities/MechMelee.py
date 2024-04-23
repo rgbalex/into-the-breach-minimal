@@ -14,4 +14,3 @@ class MechMelee(BaseEntity):
         self.default_health = 4
         self.default_damage = 2
         self.player = True
-        

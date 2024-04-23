@@ -7,7 +7,7 @@ from itb.tiles import BaseTile
 class TestBoard(unittest.TestCase):
     def setUp(self):
         self.board = Board()
-        self.map_data = [[1, 2, 3], [3, 2, 1], [0, 0, 0]]
+        self.map_data = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]
 
     def test_import_map(self):
         self.board.import_level(self.map_data, [])
@@ -34,6 +34,31 @@ class TestBoard(unittest.TestCase):
         self.board.import_level(self.map_data, [])
         self.board.set_tile(0, 0, 1)
         self.assertEqual(self.board._tiles[0, 0], 1)
+
+    def test_get_single_enemy_entity_moves(self):
+        self.board.import_level(self.map_data, [(4, 0, 0, 0)])
+        moves = list(self.board.get_available_moves(mode="enemy"))
+        self.assertEqual(
+            moves, [(0, 0, 0, 1), (0, 0, 1, 0), (0, 0, 0, 2), (0, 0, 2, 0)]
+        )
+
+    def test_get_multiple_enemy_entity_moves(self):
+        self.board.import_level(self.map_data, [(4, 0, 0, 0), (4, 0, 2, 2)])
+        moves = list(self.board.get_available_moves(mode="enemy"))
+        self.assertEqual(
+            moves,
+            # never diagonal move
+            [
+                (0, 0, 0, 1),
+                (0, 0, 1, 0),
+                (0, 0, 0, 2),
+                (0, 0, 2, 0),
+                (2, 2, 2, 1),
+                (2, 2, 1, 2),
+                (2, 2, 2, 0),
+                (2, 2, 0, 2),
+            ],
+        )
 
 
 if __name__ == "__main__":
