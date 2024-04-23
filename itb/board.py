@@ -4,13 +4,11 @@ from itb.entities.EntityDictionary import EntityDictionary
 
 
 class Board:
-    # _tiles = np.array(object=BaseTile)
-    _tiles = np.array(object=np.int32)
+    _tiles = None
     _entity_dict = EntityDictionary()
     _entities = []
 
     def import_level(self, map_data: list[list[int]], entities: list[tuple[int]]):
-        # self._tiles = np.array([[BaseTile(tile) for tile in row] for row in map_data])
         self._tiles = np.array(map_data)
         # LUT for entities
         self._entities = entities
@@ -64,8 +62,9 @@ class Board:
         else:
             raise ValueError("Invalid mode")
 
-    def __repr__(self) -> str:
-        return "\n".join([str(row) for row in self._tiles])
+    # Unsure if used
+    # def __repr__(self) -> str:
+    #     return "\n".join([str(row) for row in self._tiles])
 
     def __str__(self) -> str:
         output = "Entities:\n"
