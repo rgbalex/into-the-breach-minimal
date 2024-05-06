@@ -26,7 +26,7 @@ class Board:
         self._entities.append((type, health, x, y))
 
     def get_available_moves(self, mode: PlayerType):
-        
+
         if mode not in [PlayerType.MECH, PlayerType.BUG]:
             raise ValueError("Mode must be either MECH or BUG")
 

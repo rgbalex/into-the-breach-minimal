@@ -1,5 +1,6 @@
 from itb.board import Board
 from itb.level_importer import LevelImporter
+from itb.entities import PlayerType
 
 
 def main():
@@ -20,7 +21,7 @@ def main():
         else:
             print("Enemy's turn")
 
-            x = b.get_available_moves(mode="enemy")
+            x = b.get_available_moves(PlayerType.BUG)
             for move in x:
                 print(move)
 
