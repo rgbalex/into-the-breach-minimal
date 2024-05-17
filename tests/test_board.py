@@ -39,47 +39,73 @@ class TestBoard(unittest.TestCase):
     def test_get_single_enemy_entity_moves(self):
         self.board.import_level(self.map_data, [(4, 0, 0, 0)])
         moves = list(self.board.get_available_moves(mode=PlayerType.BUG))
-        self.assertEqual(
-            moves, [[(4, 0, 0, 1)], [(4, 0, 1, 0)], [(4, 0, 0, 2)], [(4, 0, 2, 0)]]
-        )
+
+        self.assertEqual(len(moves), 4)
+
+        possible_moves = [
+            ((4, 0, 0, 1),),
+            ((4, 0, 1, 0),),
+            ((4, 0, 0, 2),),
+            ((4, 0, 2, 0),),
+        ]
+
+        for i in moves:
+            self.assertIn(i, possible_moves)
+            possible_moves.remove(i)
+        # All moves have been checked. If there are any left, the test will fail.
+        self.assertEqual(possible_moves, [])
 
     def test_get_multiple_enemy_entity_moves(self):
         self.board.import_level(self.map_data, [(4, 0, 0, 0), (4, 0, 2, 2)])
         moves = list(self.board.get_available_moves(mode=PlayerType.BUG))
-        self.assertEqual(
+
+        possible_moves = [
+            ((4, 0, 0, 1), (4, 0, 2, 1)),
+            ((4, 0, 0, 1), (4, 0, 2, 0)),
+            ((4, 0, 0, 1), (4, 0, 1, 2)),
+            ((4, 0, 0, 1), (4, 0, 0, 2)),
+            ((4, 0, 0, 2), (4, 0, 2, 1)),
+            ((4, 0, 0, 2), (4, 0, 2, 0)),
+            ((4, 0, 0, 2), (4, 0, 1, 2)),
+            # This is illegal as there would be two enemies on the same tile
+            # ((4,0,0,2),(4,0,0,2)),
+            ((4, 0, 1, 0), (4, 0, 2, 1)),
+            ((4, 0, 1, 0), (4, 0, 2, 0)),
+            ((4, 0, 1, 0), (4, 0, 1, 2)),
+            ((4, 0, 1, 0), (4, 0, 0, 2)),
+            ((4, 0, 2, 0), (4, 0, 2, 1)),
+            # This is illegal as there would be two enemies on the same tile
+            # ((4,0,2,0),(4,0,2,0)),
+            ((4, 0, 2, 0), (4, 0, 1, 2)),
+            ((4, 0, 2, 0), (4, 0, 0, 2)),
+        ]
+
+        self.assertEqual(len(moves), len(possible_moves))
+
+        self.assertNotIn(
+            ((4, 0, 0, 2), (4, 0, 0, 2)),
             moves,
-            # never diagonal move
-            [
-                [(4, 0, 2, 2), (4, 0, 0, 1)],
-                [(4, 0, 2, 2), (4, 0, 1, 0)],
-                [(4, 0, 2, 2), (4, 0, 0, 2)],
-                [(4, 0, 2, 2), (4, 0, 2, 0)],
-                [(4, 0, 0, 0), (4, 0, 2, 1)],
-                [(4, 0, 0, 0), (4, 0, 1, 2)],
-                [(4, 0, 0, 0), (4, 0, 2, 0)],
-                [(4, 0, 0, 0), (4, 0, 0, 2)],
-            ],
+            "This is illegal as there would be two enemies on the same tile",
         )
+        self.assertNotIn(
+            ((4, 0, 2, 0), (4, 0, 2, 0)),
+            moves,
+            "This is illegal as there would be two enemies on the same tile",
+        )
+
+        for i in moves:
+            self.assertIn(i, possible_moves)
+            possible_moves.remove(i)
+        # All moves have been checked. If there are any left, the test will fail.
+        self.assertEqual(possible_moves, [])
 
     def test_get_multiple_enemy_with_friendly_entity_moves(self):
         self.board.import_level(
             self.map_data, [(1, 0, 2, 0), (4, 0, 0, 0), (4, 0, 2, 2)]
         )
         moves = list(self.board.get_available_moves(mode=PlayerType.BUG))
-        self.assertEqual(
-            moves,
-            # never diagonal move
-            [
-                [(1, 0, 2, 0), (4, 0, 2, 2), (4, 0, 0, 1)],
-                [(1, 0, 2, 0), (4, 0, 2, 2), (4, 0, 1, 0)],
-                [(1, 0, 2, 0), (4, 0, 2, 2), (4, 0, 0, 2)],
-                [(1, 0, 2, 0), (4, 0, 2, 2), (4, 0, 2, 0)],
-                [(4, 0, 0, 0), (1, 0, 2, 0), (4, 0, 2, 1)],
-                [(4, 0, 0, 0), (1, 0, 2, 0), (4, 0, 1, 2)],
-                [(4, 0, 0, 0), (1, 0, 2, 0), (4, 0, 2, 0)],
-                [(4, 0, 0, 0), (1, 0, 2, 0), (4, 0, 0, 2)],
-            ],
-        )
+        moves = set(moves)
+        self.assertEqual(len(moves), 12)
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import itertools
 import numpy as np
 
 from itb.entities import EntityDictionary, PlayerType
@@ -25,10 +26,44 @@ class Board:
     def add_entity(self, type: int, health: int, x: int, y: int):
         self._entities.append((type, health, x, y))
 
-    def get_available_moves(self, mode: PlayerType):
+    def get_valid_entity_moves(self, entity: tuple[int]):
+        e = self._entity_dict.create_entity(entity)
+        for move in e.get_available_moves():
+            try:
 
+                if e.x + move[0] < 0 or e.y + move[1] < 0:
+                    # Accounts for python allowing negative indexing to loop around
+                    raise IndexError
+
+                if self._tiles[e.y + move[1]][e.x + move[0]] in [
+                    -1,
+                    0,
+                ]:
+                    # If the tile is a wall or empty, the move is invalid
+                    continue
+
+                # if any(
+                #     [
+                #         e.x + move[0] == x and e.y + move[1] == y
+                #         for x, y in [
+                #             (entity[2], entity[3]) for entity in self._entities
+                #         ]
+                #     ]
+                # ):
+                #     # If the move would put the entity on a tile with another entity, the move is invalid
+                #     continue
+
+                yield (entity[0], entity[1], e.x + move[0], e.y + move[1])
+            except IndexError:
+                # We get here only when there is a move that goes off the end of the board
+                # so we can safely take no action and continue.
+                continue
+
+    def get_available_moves(self, mode: PlayerType):
         if mode not in [PlayerType.MECH, PlayerType.BUG]:
             raise ValueError("Mode must be either MECH or BUG")
+
+        moving_entities = []
 
         for e in self._entities:
             entity = self._entity_dict.create_entity(e)
@@ -38,28 +73,10 @@ class Board:
                 # as it is not their turn
                 continue
 
-            # Check if the move is valid
-            for move in entity.get_available_moves():
-                try:
+            moving_entities.append(self.get_valid_entity_moves(e))
 
-                    if entity.x + move[0] < 0 or entity.y + move[1] < 0:
-                        # Accounts for python allowing negative indexing to loop around
-                        raise IndexError
-
-                    if self._tiles[entity.y + move[1]][entity.x + move[0]] in [
-                        -1,
-                        0,
-                    ]:
-                        continue
-
-                    # Use of generator statement improves performance
-                    # can be optimised with pointer arithmetic if needed
-                    yield list(set(self._entities) - set([e])) + [
-                        (e[0], e[1], e[2] + move[0], e[3] + move[1])
-                    ]
-
-                except IndexError:
-                    continue
+        # Calculate the cartesian product of the lists of moves
+        return itertools.product(*moving_entities)
 
     # Unsure if used
     # def __repr__(self) -> str:

@@ -24,7 +24,6 @@ def main():
             x = b.get_available_moves(PlayerType.BUG)
             for move in x:
                 print(move)
-
             players_turn = True
 
 
