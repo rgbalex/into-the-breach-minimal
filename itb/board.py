@@ -42,16 +42,16 @@ class Board:
                     # If the tile is a wall or empty, the move is invalid
                     continue
 
-                # if any(
-                #     [
-                #         e.x + move[0] == x and e.y + move[1] == y
-                #         for x, y in [
-                #             (entity[2], entity[3]) for entity in self._entities
-                #         ]
-                #     ]
-                # ):
-                #     # If the move would put the entity on a tile with another entity, the move is invalid
-                #     continue
+                if any(
+                    [
+                        e.x + move[0] == x and e.y + move[1] == y
+                        for x, y in [
+                            (entity[2], entity[3]) for entity in self._entities
+                        ]
+                    ]
+                ):
+                    # If the move would put the entity on a tile with another entity, the move is invalid
+                    continue
 
                 yield (entity[0], entity[1], e.x + move[0], e.y + move[1])
             except IndexError:
