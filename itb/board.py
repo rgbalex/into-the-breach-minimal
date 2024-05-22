@@ -70,22 +70,24 @@ class Board:
 
             if entity.is_enemy(mode):
                 # if the entity is an enemy, dont calculate their moves
-                # as it is not their turn
+                # as it is not their turn; just append the current entity.
+                moving_entities.append([e])
                 continue
 
             moving_entities.append(self.get_valid_entity_moves(e))
 
-        def remove_duplicates(moves):
-            for i in moves:
-                if moves.count(i) > 1:
-                    return True
-
         # Solving conditions on product
         # https://stackoverflow.com/questions/27891032/python-cartesian-product-and-conditions
-        # predicate is true when need to skip the combination
+        def process_moves(moves):
+            unpacked_moves = [(t[-2], t[-1]) for t in moves]
+            return any(unpacked_moves.count(i) > 1 for i in unpacked_moves)
+
         # Calculate the cartesian product of the lists of moves
         all_moves = itertools.product(*moving_entities)
-        filtered_moves = itertools.filterfalse(remove_duplicates, all_moves)
+
+        # Apply filter to remove extraneous moves
+        filtered_moves = itertools.filterfalse(process_moves, all_moves)
+
         return filtered_moves
 
     # Unsure if used
