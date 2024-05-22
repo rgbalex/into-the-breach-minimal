@@ -11,8 +11,10 @@ class Board:
 
     def import_level(self, map_data: list[list[int]], entities: list[tuple[int]]):
         self._tiles = np.array(map_data)
+        self._entities = []
         # LUT for entities
-        self._entities = entities
+        for i in entities:
+            self.add_entity(i[0], i[1], i[2], i[3])
 
     def get_tile(self, x: int, y: int) -> int:
         return self._tiles[y][x]
@@ -24,6 +26,9 @@ class Board:
         return self._entities
 
     def add_entity(self, type: int, health: int, x: int, y: int):
+        if self._tiles[y][x] in [-1, 0]:
+            raise ValueError("Cannot place entity on wall or empty tile")
+
         self._entities.append((type, health, x, y))
 
     def get_valid_entity_moves(self, entity: tuple[int]):

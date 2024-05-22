@@ -134,6 +134,10 @@ class TestBoard(unittest.TestCase):
         # All moves have been checked. If there are any left, the test will fail.
         self.assertEqual(possible_moves, [])
 
+    def test_put_entitiy_on_invalid_tile(self):
+        with self.assertRaises(ValueError):
+            self.board.import_level(self.map_data, [(1, 0, 1, 1)])
+
 
 if __name__ == "__main__":
     unittest.main()
