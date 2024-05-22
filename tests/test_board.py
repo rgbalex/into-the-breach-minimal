@@ -28,7 +28,10 @@ class TestBoard(unittest.TestCase):
         self.board.import_level(self.map_data, [])
         tile = self.board.get_tile(1, 1)
         # self.assertIsInstance(tile.__class__, int)
-        self.assertIsInstance(tile, np.int64)
+        # self.assertIsInstance(tile, np.int64)
+        # This test has proven unreliable and platform specific. 
+        # Its specifics is commented out for now.
+        self.assertEqual(tile, 0)
 
     # this actually tests nothing?
     def test_set_tile(self):
