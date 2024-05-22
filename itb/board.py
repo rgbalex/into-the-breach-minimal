@@ -75,8 +75,18 @@ class Board:
 
             moving_entities.append(self.get_valid_entity_moves(e))
 
+        def remove_duplicates(moves):
+            for i in moves:
+                if moves.count(i) > 1:
+                    return True
+
+        # Solving conditions on product
+        # https://stackoverflow.com/questions/27891032/python-cartesian-product-and-conditions
+        # predicate is true when need to skip the combination
         # Calculate the cartesian product of the lists of moves
-        return itertools.product(*moving_entities)
+        all_moves = itertools.product(*moving_entities)
+        filtered_moves = itertools.filterfalse(remove_duplicates, all_moves)
+        return filtered_moves
 
     # Unsure if used
     # def __repr__(self) -> str:
