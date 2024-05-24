@@ -16,14 +16,16 @@ def main():
     # while True:
     for i in range(1):
         if players_turn:
-            print("Player's turn")
+            print("Player's turn\n")
             players_turn = False
+
         else:
-            print("Enemy's turn")
+            print("Enemy's turn\n")
 
             x = b.get_available_moves(PlayerType.BUG)
             for move in x:
                 print(move)
+
             players_turn = True
 
 

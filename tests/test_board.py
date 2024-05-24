@@ -29,7 +29,7 @@ class TestBoard(unittest.TestCase):
         tile = self.board.get_tile(1, 1)
         # self.assertIsInstance(tile.__class__, int)
         # self.assertIsInstance(tile, np.int64)
-        # This test has proven unreliable and platform specific. 
+        # This test has proven unreliable and platform specific.
         # Its specifics is commented out for now.
         self.assertEqual(tile, 0)
 

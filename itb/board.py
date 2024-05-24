@@ -2,6 +2,7 @@ import itertools
 import numpy as np
 
 from itb.entities import EntityDictionary, PlayerType
+from itb.minimax import Node
 
 
 class Board:
@@ -35,7 +36,6 @@ class Board:
         e = self._entity_dict.create_entity(entity)
         for move in e.get_available_moves():
             try:
-
                 if e.x + move[0] < 0 or e.y + move[1] < 0:
                     # Accounts for python allowing negative indexing to loop around
                     raise IndexError
@@ -59,6 +59,7 @@ class Board:
                     continue
 
                 yield (entity[0], entity[1], e.x + move[0], e.y + move[1])
+
             except IndexError:
                 # We get here only when there is a move that goes off the end of the board
                 # so we can safely take no action and continue.
@@ -94,6 +95,31 @@ class Board:
         filtered_moves = itertools.filterfalse(process_moves, all_moves)
 
         return filtered_moves
+
+    def get_available_moves_depth(self, mode: PlayerType, depth: int):
+        # TODO: Implement depth
+        while depth > 0:
+            depth -= 1
+            self._entities = list(self.get_available_moves(mode))
+
+    def minimax(self, node, depth: int, maximisingPlayer: PlayerType):
+        # TODO: Implement minimax
+        # see https://en.wikipedia.org/wiki/Minimax
+        if depth == 0 or node.is_terminal():
+            # TODO: the heuristic value of the node
+            return node.heuristic_value()
+
+        if maximisingPlayer:
+            value = float("-inf")
+            for child in node:
+                # TODO: Wrapper for playertype flip flop
+                value = max(value, self.minimax(child, depth - 1, False))
+            return value
+        else:  # Minimising player
+            value = float("inf")
+            for child in node:
+                value = min(value, self.minimax(child, depth - 1, True))
+            return value
 
     # Unsure if used
     # def __repr__(self) -> str:
