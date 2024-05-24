@@ -1,1 +1,1 @@
-from nodes import Node
+from .nodes import Node
