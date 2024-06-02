@@ -3,4 +3,20 @@
         "./src"
     ],
     "python.testing.cwd": "${workspaceFolder}/tests",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "tests/__pycache__": true,
+        "itb/__pycache__": true,
+        "itb/tiles/__pycache__": true
+    },
+    "hide-files.files": [
+        "tests/__pycache__",
+        "itb/__pycache__",
+        "itb/tiles/__pycache__"
+    ],
 }
