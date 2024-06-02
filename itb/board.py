@@ -121,10 +121,6 @@ class Board:
                 value = min(value, self.minimax(child, depth - 1, True))
             return value
 
-    # Unsure if used
-    # def __repr__(self) -> str:
-    #     return "\n".join([str(row) for row in self._tiles])
-
     def __str__(self) -> str:
         output = "Entities:\n"
         for i in self._entities:
