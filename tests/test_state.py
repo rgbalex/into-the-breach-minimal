@@ -31,6 +31,13 @@ class TestBoard(unittest.TestCase):
         moves = state.get_available_moves(PlayerType.BUG)
         self.assertEqual(len(moves), 3)
 
+    def test_get_available_moves_two_enemies(self):
+        entities = [(1, 0, 0, 0), (4, 0, 7, 7), (4, 0, 6, 6)]
+        state = State(self.tiles, entities)
+        moves = state.get_available_moves(PlayerType.BUG)
+        print(moves)
+        self.assertEqual(len(moves), 11)
+
 
 if __name__ == "__main__":
     unittest.main()
