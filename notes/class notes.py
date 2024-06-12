@@ -4,14 +4,16 @@ class Board:
     # the root of the state tree
     _state = None
 
+
 class State:
     _entities = []
 
     def get_entities(self):
         return self._entities
-    
+
     def add_entity(self, type: int, health: int, x: int, y: int):
         pass
+
 
 class Node:
     state: State = None
@@ -24,7 +26,7 @@ class Node:
         self.state = state
         self.parent = parent
 
-        # Give the node a score 
+        # Give the node a score
         self.score = self.evaluate(self.state)
 
         # populate childeren

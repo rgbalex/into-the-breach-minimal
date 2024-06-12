@@ -1,17 +1,17 @@
 from itb.entities import PlayerType
 from itb.state import State
 
+
 class Node:
     # A node is a collection of a state, a parent node, a player type, score, and depth.
-    _player : PlayerType    = None
-    _state  : State         = None
-    _score  : float         = None
-    _depth  : int           = None
-    _parent                 = None 
-    _children               = None
+    _player: PlayerType = None
+    _state: State = None
+    _score: float = None
+    _depth: int = None
+    _parent = None
+    _children = None
 
     string_buff = ""
-
 
     def __init__(self, state: State, parent, player: PlayerType, depth: int):
         self._state = state
@@ -27,7 +27,7 @@ class Node:
             for new_state in state.get_available_moves(player):
                 # new state here is passed by reference since it is coming from a list
                 # self.string_buff += f"\n{new_state} + {new_state.__class__}"
-                l =[]
+                l = []
                 for i in new_state:
                     t = tuple([i[0], i[1], i[2], i[3]])
                     l.append(t)
@@ -35,8 +35,6 @@ class Node:
                 s = State(tiles=self._state._tiles, entities=l)
                 self._children.append(Node(s, self, player, depth - 1))
 
-
-                
     def is_terminal(self) -> bool:
         return self._depth == 0
 

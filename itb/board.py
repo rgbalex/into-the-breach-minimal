@@ -27,7 +27,6 @@ class Board:
         root = Node(self._state, None, mode, depth)
         return root
 
-    
     def minimax(self, node, depth: int, maximisingPlayer: PlayerType):
         # TODO: Implement minimax
         # see https://en.wikipedia.org/wiki/Minimax

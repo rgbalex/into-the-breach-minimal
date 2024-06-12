@@ -2,6 +2,7 @@ import itertools
 
 from itb.entities import PlayerType, EntityDictionary
 
+
 class State:
     # The state of the board can be defined in the most minimal way as follows:
     # 1. The tiles of the board
@@ -21,8 +22,8 @@ class State:
 
     def __iter__(self):
         return iter(self._entities)
-    
-    def __str__(self) -> str:#
+
+    def __str__(self) -> str:  #
         outstr = f"    State at {hex(id(self))}"
         outstr += f"\n    Tiles:"
         for row in self._tiles:
@@ -31,7 +32,7 @@ class State:
         for e in self._entities:
             outstr += f"\n      {e}"
         return outstr
-    
+
     def get_valid_entity_moves(self, entity: tuple[int]):
         e = self._entity_dict.create_entity(entity)
         for move in e.get_available_moves():
