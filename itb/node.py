@@ -1,8 +1,9 @@
 from math import inf
+from itb.state import State
 
 class Node:
     # Current state for this node
-    state: list = []
+    state: State = None
     # Parent node
     parent = None
     # Child nodes
@@ -12,7 +13,7 @@ class Node:
     # Calculated score for this node
     score: float = -inf
 
-    def __init__(self, state: list, parent, mode, depth: int = -1):
+    def __init__(self, state: list, parent, mode, depth):
         if parent is None:
             # Yes it can it is the root node.
             # raise ValueError("Parent cannot be none")
@@ -30,15 +31,16 @@ class Node:
 
         # populate childeren
         if depth > 0:
-            for states in 
+            for states in self.state.get_available_moves(mode):
+                self.add_child(states, self, mode, depth-1)
 
         return
 
     def evaluate(self, state: list) -> float:
         return 0.0
     
-    def add_child(self, state, parent, depth):
-        child = Node(state, parent, depth)
+    def add_child(self, state, parent, mode, depth):
+        child = Node(state, parent, mode, depth)
         self.children.append(child)
 
     def heuristic_value(self):
