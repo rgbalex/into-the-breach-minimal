@@ -5,7 +5,7 @@ from itb.entities import PlayerType
 
 def main():
     m = LevelImporter()
-    m.load_level("itb/maps/test-03.txt")
+    m.load_level("itb/maps/test-04.txt")
 
     b = Board()
     b.import_level(m.get_tiles(), m.get_entities())
@@ -14,12 +14,10 @@ def main():
     players_turn = False
 
     # while True:
-    print("Enemy's turn:")
-    x = b.get_available_moves_depth(PlayerType.BUG, 1)
-    print(f"Current state: {x}")
-    print(f"Available moves:\n")
-    for i in x:
-        print(i)    
+    print("== Enemy's turn == ")
+    x = b.get_available_moves_depth(PlayerType.BUG, 2)
+    
+    print(f"Current node: \n{x}")
 
 
 

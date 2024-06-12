@@ -12,10 +12,10 @@ class Board:
 
     def import_level(self, map_data: list[list[int]], entities: list[tuple[int]]):
         self._tiles = np.array(map_data)
-        self._state = State(self._tiles)
-        # LUT for entities
-        for i in entities:
-            self._state.add_entity(i[0], i[1], i[2], i[3])
+        s = State(self._tiles, entities)
+        print(entities)
+        self._state = s
+        # print(f"SHOULD NOT BE THE SAME {id(self._state._entities[1])} {id(entities[1])}",)
 
     def get_tile(self, x: int, y: int) -> int:
         return self._tiles[y][x]
@@ -24,7 +24,7 @@ class Board:
         self._tiles[y][x] = tile
 
     def get_available_moves_depth(self, mode: PlayerType, depth: int):
-        root = Node(self._state, None, mode, 1)
+        root = Node(self._state, None, mode, depth)
         return root
 
     
@@ -49,7 +49,7 @@ class Board:
 
     def __str__(self) -> str:
         output = "Entities:\n"
-        for i in self._state.get_entities():
+        for i in self._state:
             output += f"{self._entity_dict.create_entity(i)}\n"
         output += "\nTiles:\n"
         output += "\n".join([str(row) for row in self._tiles])
