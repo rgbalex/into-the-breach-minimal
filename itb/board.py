@@ -11,7 +11,7 @@ class Board:
     _state = None
 
     def import_level(self, map_data: list[list[int]], entities: list[tuple[int]]):
-        self._tiles = np.array(map_data)
+        self._tiles = map_data
         s = State(self._tiles, entities)
         print(entities)
         self._state = s

@@ -1,12 +1,14 @@
 from itb.entities import PlayerType
 from itb.state import State
 
+inf = float("inf")
+
 
 class Node:
     # A node is a collection of a state, a parent node, a player type, score, and depth.
     _player: PlayerType = None
     _state: State = None
-    _score: float = None
+    _score: float = -inf
     _depth: int = None
     _parent = None
     _children = None
@@ -19,6 +21,8 @@ class Node:
         self._depth = depth
         self._parent = parent
         self._children = list()
+
+        self._score = self._state.heuristic_value()
 
         if depth > 0:
             # if depth is larger than 0, create children
@@ -37,6 +41,26 @@ class Node:
 
     def is_terminal(self) -> bool:
         return len(self._children) == 0
+
+    def to_json(self):
+        return (
+            '{"player":"'
+            + str(self._player.name)
+            + '",'
+            + '"depth": '
+            + str(self._depth)
+            + ","
+            + '"score": '
+            + str(self._score)
+            + ","
+            + '"state": '
+            + self._state.to_json()
+            + ","
+            + '"children": '
+            + str([c.to_json() for c in self._children]).replace("'", "")
+            + "}".replace("'", '"')
+        )
+        # "\"state\": "+self._state.to_json()+ \
 
     def __str__(self) -> str:
         outstr = f" Node at {hex(id(self))}"

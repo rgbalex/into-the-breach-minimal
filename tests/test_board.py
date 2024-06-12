@@ -12,16 +12,16 @@ class TestBoard(unittest.TestCase):
 
     def test_import_map(self):
         self.board.import_level(self.map_data, [])
-        expected_tiles = np.array(self.map_data)
+        expected_tiles = list(self.map_data)
 
         # Check if the shapes of the two arrays are equal
-        self.assertEqual(self.board._tiles.shape, expected_tiles.shape)
+        self.assertEqual(len(self.board._tiles), len(expected_tiles))
 
         # Check if the types of the elements in the two arrays are equal
-        for i in range(self.board._tiles.shape[0]):
-            for j in range(self.board._tiles.shape[1]):
+        for i in range(len(self.board._tiles)):
+            for j in range(len(self.board._tiles[i])):
                 self.assertIsInstance(
-                    self.board._tiles[i, j], type(expected_tiles[i, j])
+                    self.board._tiles[j][i], type(expected_tiles[j][i])
                 )
 
     def test_get_tile(self):
@@ -37,7 +37,7 @@ class TestBoard(unittest.TestCase):
     def test_set_tile(self):
         self.board.import_level(self.map_data, [])
         self.board.set_tile(0, 0, 1)
-        self.assertEqual(self.board._tiles[0, 0], 1)
+        self.assertEqual(self.board._tiles[0][0], 1)
 
     def test_put_entitiy_on_invalid_tile(self):
         with self.assertRaises(ValueError):

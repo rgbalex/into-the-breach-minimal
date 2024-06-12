@@ -1,3 +1,4 @@
+import json
 import itertools
 
 from itb.entities import PlayerType, EntityDictionary
@@ -22,6 +23,16 @@ class State:
             _tuple = (e[0], e[1], e[2], e[3])
             self._entities.append(_tuple)
 
+    def to_json(self):
+        return (
+            '{"tiles":'
+            + str(self._tiles)
+            + ","
+            + '"entities": '
+            + str(list(self.list_entities()))
+            + "}".replace("'", '"')
+        )
+
     def __iter__(self):
         return iter(self._entities)
 
@@ -34,6 +45,13 @@ class State:
         for e in self._entities:
             outstr += f"\n      {e}"
         return outstr
+
+    def heuristic_value(self) -> float:
+        return 1.0
+
+    def list_entities(self):
+        for i in self._entities:
+            yield [i[0], i[1], i[2], i[3]]
 
     def get_valid_entity_moves(self, entity: tuple[int]):
         e = self._entity_dict.create_entity(entity)
