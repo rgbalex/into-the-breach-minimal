@@ -1,12 +1,12 @@
-import json
-import pprint
-
 from itb.board import Board
 from itb.level_importer import LevelImporter
 from itb.entities import PlayerType
+from itb.serialise import Serialiser
 
 
 def main():
+    s = Serialiser()
+
     m = LevelImporter()
     m.load_level("itb/maps/test-04.txt")
 
@@ -16,25 +16,11 @@ def main():
 
     players_turn = False
 
-    # while True:
     print("== Enemy's turn == ")
-    x = b.get_available_moves_depth(PlayerType.BUG, 2)
+    s.tree = b.get_available_moves_depth(PlayerType.BUG, 2)
+    s.serialise()
 
-    print(f"Current node: \n{x}")
-    json_out = x.to_json()
-    json_str = json.loads(json_out)
-
-    with open("dump.json", "w") as f:
-        f.write(
-            pprint.pformat(
-                json_str,
-                indent=4,
-                width=230,
-                sort_dicts=False,
-                compact=False,
-                depth=10000,
-            ).replace("'", '"')
-        )
+    print(f"Current node: \n{s.tree}")
 
 
 if __name__ == "__main__":
