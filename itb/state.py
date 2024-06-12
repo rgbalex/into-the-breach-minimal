@@ -73,17 +73,25 @@ class State:
             raise ValueError("Mode must be either MECH or BUG")
 
         moving_entities = []
+        no_valid_moves = True
 
         for e in self._entities:
             entity = self._entity_dict.create_entity(e)
-
+            # Perhaps map the is_enemy function to a fresh list of entities
+            # then check if false is in list then run
+            # This avoids the need for the flag and constant check
             if entity.is_enemy(mode):
                 # if the entity is an enemy, dont calculate their moves
                 # as it is not their turn; just append the current entity.
                 moving_entities.append([e])
-                continue
+            else:
+                no_valid_moves = False
+                moving_entities.append(self.get_valid_entity_moves(e))
 
-            moving_entities.append(self.get_valid_entity_moves(e))
+        if no_valid_moves:
+            # Stops an edge case where the code will return a valid board state of just enemy pieces
+            # when there are no valid moves for the moving player.
+            return []
 
         # Solving conditions on product
         # https://stackoverflow.com/questions/27891032/python-cartesian-product-and-conditions
