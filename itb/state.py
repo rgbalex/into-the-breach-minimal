@@ -17,6 +17,8 @@ class State:
         # Passed by value
         self._entities = []
         for e in entities:
+            if self._tiles[e[3]][e[2]] in [-1, 0]:
+                raise ValueError("Cannot place entity on wall or empty tile")
             _tuple = (e[0], e[1], e[2], e[3])
             self._entities.append(_tuple)
 

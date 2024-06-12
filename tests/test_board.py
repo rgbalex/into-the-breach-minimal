@@ -41,7 +41,7 @@ class TestBoard(unittest.TestCase):
 
     def test_get_single_enemy_entity_moves(self):
         self.board.import_level(self.map_data, [(4, 0, 0, 0)])
-        moves = list(self.board.get_available_moves(mode=PlayerType.BUG))
+        moves = list(self.board._state.get_available_moves(mode=PlayerType.BUG))
 
         self.assertEqual(len(moves), 4)
 
@@ -60,7 +60,7 @@ class TestBoard(unittest.TestCase):
 
     def test_get_multiple_enemy_entity_moves(self):
         self.board.import_level(self.map_data, [(4, 0, 0, 0), (4, 0, 2, 2)])
-        moves = list(self.board.get_available_moves(mode=PlayerType.BUG))
+        moves = list(self.board._state.get_available_moves(mode=PlayerType.BUG))
 
         possible_moves = [
             ((4, 0, 0, 1), (4, 0, 2, 1)),
@@ -103,7 +103,7 @@ class TestBoard(unittest.TestCase):
         self.board.import_level(
             self.map_data, [(1, 0, 2, 0), (4, 0, 0, 0), (4, 0, 2, 2)]
         )
-        moves = list(self.board.get_available_moves(mode=PlayerType.BUG))
+        moves = list(self.board._state.get_available_moves(mode=PlayerType.BUG))
         moves = set(moves)
 
         possible_moves = [
