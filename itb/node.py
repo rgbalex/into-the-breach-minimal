@@ -36,7 +36,7 @@ class Node:
                 self._children.append(Node(s, self, player, depth - 1))
 
     def is_terminal(self) -> bool:
-        return self._depth == 0
+        return len(self._children) == 0
 
     def __str__(self) -> str:
         outstr = f" Node at {hex(id(self))}"
@@ -47,8 +47,9 @@ class Node:
         outstr += f"\n  State:\n{self._state}"
         # outstr += f"\n\nString buffer: {self.string_buff}"
 
+        outstr += f"\n  Children ({len(self._children)})"
         if len(self._children) > 0:
-            outstr += f"\n  Children:"
+            outstr += f":"
             for c in self._children:
                 lines = []
                 lines += str(c).split("\n")
