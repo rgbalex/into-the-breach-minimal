@@ -14,10 +14,12 @@ def main():
     players_turn = False
 
     # while True:
-    print("Enemy's turn: (all moves to depth 1)")
+    print("Enemy's turn:")
     x = b.get_available_moves_depth(PlayerType.BUG, 1)
-    for move in x:
-        print(move)
+    print(f"Current state: {x}")
+    print(f"Available moves:\n")
+    for i in x:
+        print(i)    
 
 
 

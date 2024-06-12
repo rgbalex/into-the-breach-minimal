@@ -2,7 +2,7 @@ import itertools
 import numpy as np
 
 from itb.entities import EntityDictionary, PlayerType
-from itb.minimax import Node
+from itb.node import Node
 
 
 class Board:
@@ -97,12 +97,10 @@ class Board:
         return filtered_moves
 
     def get_available_moves_depth(self, mode: PlayerType, depth: int):
-        returned_moves_dict = {}
-        # TODO: Implement depth
-        while depth > 0:
-            depth -= 1
-            self._entities = list(self.get_available_moves(mode))
+        root = Node(self._entities, None, mode, depth)
 
+        return root
+    
     def minimax(self, node, depth: int, maximisingPlayer: PlayerType):
         # TODO: Implement minimax
         # see https://en.wikipedia.org/wiki/Minimax
