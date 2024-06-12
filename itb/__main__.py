@@ -14,19 +14,11 @@ def main():
     players_turn = False
 
     # while True:
-    for i in range(1):
-        if players_turn:
-            print("Player's turn\n")
-            players_turn = False
+    print("Enemy's turn: (all moves to depth 1)")
+    x = b.get_available_moves_depth(PlayerType.BUG, 1)
+    for move in x:
+        print(move)
 
-        else:
-            print("Enemy's turn\n")
-
-            x = b.get_available_moves(PlayerType.BUG)
-            for move in x:
-                print(move)
-
-            players_turn = True
 
 
 if __name__ == "__main__":

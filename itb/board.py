@@ -97,6 +97,7 @@ class Board:
         return filtered_moves
 
     def get_available_moves_depth(self, mode: PlayerType, depth: int):
+        returned_moves_dict = {}
         # TODO: Implement depth
         while depth > 0:
             depth -= 1
