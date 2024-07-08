@@ -1,3 +1,5 @@
+import sys
+
 from itb.board import Board
 from itb.level_importer import LevelImporter
 from itb.entities import PlayerType
@@ -14,13 +16,18 @@ def main():
     b.import_level(m.get_tiles(), m.get_entities())
     print(b)
 
-    players_turn = False
-
     print("== Enemy's turn == ")
-    s.tree = b.get_available_moves_depth(PlayerType.BUG, 2)
+    s.tree = b.get_available_moves_depth(PlayerType.BUG, 3)
     s.serialise()
 
+    # filehandle for print output
+    # quick and dirty
+    save_stdout = sys.stdout
+    sys.stdout = open("output.txt", "w")
     print(f"Current node: \n{s.tree}")
+    sys.stdout.close()
+    sys.stdout = save_stdout
+    print("Output to output.txt")
 
 
 if __name__ == "__main__":

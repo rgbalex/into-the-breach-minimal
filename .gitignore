@@ -165,3 +165,12 @@ scratch/*
 
 # Ignore generated json files
 /*.json
+
+# Ignore generated txt files
+/output.txt
+output.txt
+
+# Ignore off files
+
+*.off
+/*.off
