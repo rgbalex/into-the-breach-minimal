@@ -9,6 +9,7 @@ class Board:
     _tiles = None
     _entity_dict = EntityDictionary()
     _state = None
+    _root = None
 
     def import_level(self, map_data: list[list[int]], entities: list[tuple[int]]):
         self._tiles = map_data
@@ -16,6 +17,21 @@ class Board:
         print(entities)
         self._state = s
         # print(f"SHOULD NOT BE THE SAME {id(self._state._entities[1])} {id(entities[1])}",)
+
+    def summary(self):
+        if self._root is None:
+            print("No root node")
+            return
+
+        # print number of nodes in the tree
+        print(f"Number of nodes in the tree: {self._root.count_nodes()}")
+        # print the depth of the tree
+        print(f"Depth of the tree: {self._root.get_depth()}")
+        # print the number of leaf nodes in the tree
+        print(f"Number of leaf nodes in the tree: {self._root.count_leaf_nodes()}")
+
+    def get_root(self):
+        return self._root
 
     def get_tile(self, x: int, y: int) -> int:
         return self._tiles[y][x]
@@ -25,6 +41,7 @@ class Board:
 
     def get_available_moves_depth(self, mode: PlayerType, depth: int):
         root = Node(self._state, None, mode, depth)
+        self._root = root
         return root
 
     def minimax(self, node, depth: int, maximisingPlayer: PlayerType):

@@ -39,6 +39,23 @@ class Node:
                 s = State(tiles=self._state._tiles, entities=l)
                 self._children.append(Node(s, self, player, depth - 1))
 
+    def count_nodes(self) -> int:
+        count = 1
+        for c in self._children:
+            count += c.count_nodes()
+        return count
+
+    def get_depth(self) -> int:
+        return self._depth
+
+    def count_leaf_nodes(self) -> int:
+        count = 0
+        if len(self._children) == 0:
+            return 1
+        for c in self._children:
+            count += c.count_leaf_nodes()
+        return count
+
     def is_terminal(self) -> bool:
         return len(self._children) == 0
 

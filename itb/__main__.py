@@ -17,13 +17,16 @@ def main():
     print(b)
 
     print("== Enemy's turn == ")
-    s.tree = b.get_available_moves_depth(PlayerType.BUG, 3)
+    b.get_available_moves_depth(PlayerType.BUG, 3)
+    s.tree = b.get_root()
     s.serialise()
 
     with open("output.txt", "w") as log:
         log.write(f"Current node: \n{s.tree}")
 
-    print("Output to output.txt")
+    print("Output to output.txt\n")
+
+    b.summary()
 
 
 if __name__ == "__main__":
