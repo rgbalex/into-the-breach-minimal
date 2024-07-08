@@ -1,4 +1,4 @@
-from itb.entities import PlayerType
+from itb.entities import PlayerType, get_opponent
 from itb.state import State
 
 inf = float("inf")
@@ -37,7 +37,9 @@ class Node:
                     l.append(t)
                 l = tuple(l)
                 s = State(tiles=self._state._tiles, entities=l)
-                self._children.append(Node(s, self, player, depth - 1))
+                self._children.append(
+                    Node(s, self, get_opponent(self._player), depth - 1)
+                )
 
     def count_nodes(self) -> int:
         count = 1

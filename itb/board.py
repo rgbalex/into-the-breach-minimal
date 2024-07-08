@@ -23,10 +23,10 @@ class Board:
             print("No root node")
             return
 
-        # print number of nodes in the tree
-        print(f"Number of nodes in the tree: {self._root.count_nodes()}")
         # print the depth of the tree
         print(f"Depth of the tree: {self._root.get_depth()}")
+        # print number of nodes in the tree
+        print(f"Number of nodes in the tree: {self._root.count_nodes()}")
         # print the number of leaf nodes in the tree
         print(f"Number of leaf nodes in the tree: {self._root.count_leaf_nodes()}")
 

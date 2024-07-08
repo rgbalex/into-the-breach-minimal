@@ -1,8 +1,8 @@
-import sys
+import sys, os
 
 from itb.board import Board
 from itb.level_importer import LevelImporter
-from itb.entities import PlayerType
+from itb.entities import PlayerType, get_opponent
 from itb.serialise import Serialiser
 
 
@@ -17,14 +17,19 @@ def main():
     print(b)
 
     print("== Enemy's turn == ")
-    b.get_available_moves_depth(PlayerType.BUG, 3)
+    b.get_available_moves_depth(PlayerType.BUG, 5)
     s.tree = b.get_root()
+
+    print("Serialising...")
     s.serialise()
+    print("Output to output.json\n")
 
-    with open("output.txt", "w") as log:
-        log.write(f"Current node: \n{s.tree}")
-
-    print("Output to output.txt\n")
+    if "verbose" in os.environ:
+        if os.environ["verbose"] == "true":
+            print("Dumping output...\n")
+            with open("output.txt", "w") as log:
+                log.write(f"Current node: \n{s.tree}")
+            print("Output to output.txt\n")
 
     b.summary()
 

@@ -6,7 +6,7 @@ from itb.state import State
 from itb.entities import PlayerType
 
 
-class TestBoard(unittest.TestCase):
+class TestNode(unittest.TestCase):
     def setUp(self):
         self.tiles = [
             [1, 1, 1, 1, 1, 1, 1, 1],
@@ -79,10 +79,10 @@ class TestBoard(unittest.TestCase):
 
         s = node._children[0]
         self.assertEqual(
-            len(s._children[0]._state.get_available_moves(PlayerType.BUG)), 4
+            len(s._children[0]._state.get_available_moves(PlayerType.BUG)), 5
         )
         self.assertEqual(
-            len(s._children[1]._state.get_available_moves(PlayerType.BUG)), 3
+            len(s._children[1]._state.get_available_moves(PlayerType.BUG)), 5
         )
         self.assertEqual(
             len(s._children[2]._state.get_available_moves(PlayerType.BUG)), 5

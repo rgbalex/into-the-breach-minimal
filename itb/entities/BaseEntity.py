@@ -19,6 +19,15 @@ class PlayerType(Enum):
     BUG = 2
 
 
+def get_opponent(player: PlayerType):
+    if player == PlayerType.MECH:
+        return PlayerType.BUG
+    elif player == PlayerType.BUG:
+        return PlayerType.MECH
+    else:
+        return PlayerType.UNDEF
+
+
 class BaseEntity:
     _type = EntityType.UNDEF
     _health = 0
