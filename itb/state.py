@@ -1,5 +1,6 @@
 import json
 import itertools
+import os
 
 from itb.entities import PlayerType, EntityDictionary
 
@@ -24,19 +25,23 @@ class State:
             self._entities.append(_tuple)
 
     def to_json(self):
-        return (
-            '{"tiles":'
-            + str(self._tiles)
-            + ","
-            + '"entities": '
-            + str(list(self.list_entities()))
-            + "}".replace("'", '"')
-        )
+        # If environment variable verbose is set to true, print the state
+        if "verbose" in os.environ:
+            if os.environ["verbose"] == "true":
+                return (
+                    '{"tiles":'
+                    + str(self._tiles)
+                    + ","
+                    + '"entities": '
+                    + str(list(self.list_entities()))
+                    + "}".replace("'", '"')
+                )
+        return '{"entities": ' + str(list(self.list_entities())) + "}".replace("'", '"')
 
     def __iter__(self):
         return iter(self._entities)
 
-    def __str__(self) -> str:  #
+    def __str__(self) -> str:
         outstr = f"    State at {hex(id(self))}"
         outstr += f"\n    Tiles:"
         for row in self._tiles:
