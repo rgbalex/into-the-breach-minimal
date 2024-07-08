@@ -20,13 +20,9 @@ def main():
     s.tree = b.get_available_moves_depth(PlayerType.BUG, 3)
     s.serialise()
 
-    # filehandle for print output
-    # quick and dirty
-    save_stdout = sys.stdout
-    sys.stdout = open("output.txt", "w")
-    print(f"Current node: \n{s.tree}")
-    sys.stdout.close()
-    sys.stdout = save_stdout
+    with open("output.txt", "w") as log:
+        log.write(f"Current node: \n{s.tree}")
+
     print("Output to output.txt")
 
 
