@@ -15,9 +15,16 @@ class Node:
 
     string_buff = ""
 
+    def is_enemy_entity_type(self, playerType: int) -> bool:
+        if playerType in {1, 2, 3}:
+            return True if self._player == PlayerType.MECH else False
+        elif playerType in {4, 5, 6}:
+            return False if self._player == PlayerType.BUG else True
+        raise ValueError(f"Entity type {playerType} is not a defined player type.")
+
     def __init__(self, state: State, parent, player: PlayerType, depth: int):
         self._state = state
-        self._player = player
+        self._player: PlayerType = player
         self._depth = depth
         self._parent = parent
         self._children = []
@@ -40,6 +47,31 @@ class Node:
                 self._children.append(
                     Node(s, self, get_opponent(self._player), depth - 1)
                 )
+
+        self._score = self.calculate_value()
+
+    def calculate_value(self) -> float:
+        score: float = 0.0
+        for e in self._state.list_entities():
+            calculated_score: float = 0.0
+            # Entities are in the form of [type, health, x, y]
+            # TODO: Implement converter helper for converting type of entity to player type
+
+            # Scoring has some base elements as follows:
+            #   Base score for number of entities
+            #   Base score for 1/4 health of entities
+            calculated_score += 1
+            # calculated_score += e[1] / 4
+
+            if self.is_enemy_entity_type(e[0]):
+                calculated_score = -1 * calculated_score
+
+            # print(f"Entity: {e} Score: {calculated_score}")
+            score += calculated_score
+
+        self._score = score
+        print(f"Node score: {score}")
+        return score
 
     def count_nodes(self) -> int:
         count = 1
