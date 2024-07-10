@@ -2,5 +2,4 @@ pytest
 fluentcheck
 pre-commit
 numpy
-tkinter
 customtkinter
