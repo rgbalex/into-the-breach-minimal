@@ -47,19 +47,19 @@ class Board:
     def minimax(self, node, depth: int, maximisingPlayer: PlayerType):
         # TODO: Implement minimax
         # see https://en.wikipedia.org/wiki/Minimax
-        if depth == 0 or node.is_terminal():
+        if node.is_terminal():
             # TODO: the heuristic value of the node
-            return node.heuristic_value()
+            return node.get_score()
 
-        if maximisingPlayer:
+        if maximisingPlayer == PlayerType.MECH:
             value = float("-inf")
             for child in node:
-                value = max(value, self.minimax(child, depth - 1, False))
+                value = max(value, self.minimax(child, depth - 1, PlayerType.BUG))
             return value
-        else:  # Minimising player
+        elif maximisingPlayer == PlayerType.BUG:  # Minimising player
             value = float("inf")
             for child in node:
-                value = min(value, self.minimax(child, depth - 1, True))
+                value = min(value, self.minimax(child, depth - 1, PlayerType.MECH))
             return value
 
     def __str__(self) -> str:

@@ -8,7 +8,7 @@ class Node:
     # A node is a collection of a state, a parent node, a player type, score, and depth.
     _player: PlayerType = None
     _state: State = None
-    _score: float = -inf
+    _score: float = 0.0
     _depth: int = None
     _parent = None
     _children = None
@@ -20,9 +20,9 @@ class Node:
         self._player = player
         self._depth = depth
         self._parent = parent
-        self._children = list()
+        self._children = []
 
-        self._score = self._state.heuristic_value()
+        # self._score = self._state.calculate_value()
 
         if depth > 0:
             # if depth is larger than 0, create children
@@ -49,6 +49,9 @@ class Node:
 
     def get_depth(self) -> int:
         return self._depth
+
+    def get_score(self) -> float:
+        return self._score
 
     def count_leaf_nodes(self) -> int:
         count = 0
@@ -99,3 +102,6 @@ class Node:
                 for line in lines:
                     outstr += f"\n  {line}"
         return outstr
+
+    def __iter__(self):
+        return iter(self._children)

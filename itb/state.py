@@ -51,9 +51,6 @@ class State:
             outstr += f"\n      {e}"
         return outstr
 
-    def heuristic_value(self) -> float:
-        return 1.0
-
     def list_entities(self):
         for i in self._entities:
             yield [i[0], i[1], i[2], i[3]]
