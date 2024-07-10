@@ -22,6 +22,14 @@ class State:
             if self._tiles[e[3]][e[2]] in [-1, 0]:
                 raise ValueError("Cannot place entity on wall or empty tile")
             _tuple = (e[0], e[1], e[2], e[3])
+
+            # Adding check for default health
+            if e[1] == 0:
+                _tuple = (e[0], self._entity_dict.get_default_health(e[0]), e[2], e[3])
+                print(
+                    f"Entity {e[0]} has been given default health of {self._entity_dict.get_default_health(e[0])}"
+                )
+
             self._entities.append(_tuple)
 
     def to_json(self):

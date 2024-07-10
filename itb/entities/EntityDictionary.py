@@ -13,3 +13,6 @@ class EntityDictionary:
 
     def create_entity(self, ctor: tuple[int, int, int, int]):
         return self.entity_dict[EntityType(ctor[0])](ctor)
+
+    def get_default_health(self, entity_type: int):
+        return self.create_entity((entity_type, 0, 0, 0)).get_health()
