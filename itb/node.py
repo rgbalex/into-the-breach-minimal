@@ -1,3 +1,5 @@
+import math
+
 from itb.entities import PlayerType, get_opponent
 from itb.state import State
 
@@ -61,22 +63,22 @@ class Node:
             if not self.is_enemy_entity_type(e[0])
         ]
 
-        # DEBUG
-        # print(f"Player entities: {player_entities}")
-        # print(f"Enemy entities: {enemy_entities}")
+        # edit these parameters
+        weight_base: float = 1.0
+        weight_health: float = 0.5
+        # note - this is affecting a value with range 0-4
+        weight_max_distance: float = 0.8
 
         for e in self._state.list_entities():
-            calculated_score: float = 0.0
             # Entities are in the form of [type, health, x, y]
-            # TODO: Implement converter helper for converting type of entity to player type
-
-            # Scoring has some base elements as follows:
+            calculated_score: float = 0.0
+            calculated_weight_score: float = 0.0
 
             #   Base score for number of entities
-            calculated_score += 1
+            calculated_score += weight_base
+
             #   Base score for 1/4 health of entities
-            calculated_score += e[1] / 4
-            #   Base score for entities that are close to the enemy
+            calculated_score += e[1] * weight_health
 
             if self.is_enemy_entity_type(e[0]):
                 calculated_score = -1 * calculated_score
@@ -84,8 +86,21 @@ class Node:
             # print(f"Entity: {e} Score: {calculated_score}")
             score += calculated_score
 
+        # Edit score based on entity proximity
+        #   Base score for entities that are close to the enemy
+        #   Note: Max score from this is 4 as sqrt(sum(dx, dy)) = sqrt(16) = 4
+        for friendly in player_entities:
+            for enemies in enemy_entities:
+                calculated_weight_score += weight_max_distance * (
+                    4
+                    - math.sqrt(
+                        abs(friendly[2] - enemies[2]) + abs(friendly[3] - enemies[3])
+                    )
+                )
+        score += calculated_weight_score * weight_max_distance
+
         self._score = score
-        print(f"Node score: {score}\n")
+        print(f"Calculated score: {score}\n")
         return score
 
     def count_nodes(self) -> int:

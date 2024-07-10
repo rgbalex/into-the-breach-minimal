@@ -1,5 +1,5 @@
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Python application](https://github.com/rgbalex/into-the-breach-minimal/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/rgbalex/into-the-breach-minimal/actions/workflows/python-app.yml)
+[![Code Style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Tests and Coverage](https://github.com/rgbalex/into-the-breach-minimal/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/rgbalex/into-the-breach-minimal/actions/workflows/python-app.yml)
 
 # into-the-breach-minimal
 A minimal recreation of Into the Breach for use with my dissertation project. 
@@ -27,7 +27,7 @@ To install and run this project, follow these steps:
     python -m itb
     ```
 
-## Usage
+<!-- ## Usage -->
 <!-- Once the application is running, you can access it by opening your web browser and navigating to `http://localhost:5000`. From there, you can interact with the minimal recreation of Into the Breach. -->
 
 ## Contributing
