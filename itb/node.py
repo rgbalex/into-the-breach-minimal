@@ -54,10 +54,10 @@ class Node:
 
     def calculate_value(self) -> float:
         score: float = 0.0
-        enemy_entities = [
+        enemyEntities = [
             e for e in self._state.list_entities() if self.is_enemy_entity_type(e[0])
         ]
-        player_entities = [
+        friendlyEntities = [
             e
             for e in self._state.list_entities()
             if not self.is_enemy_entity_type(e[0])
@@ -90,14 +90,10 @@ class Node:
         #   Base score for entities that are close to the enemy
         #   Note: Max score from this is 4 as sqrt(sum(dx, dy)) = sqrt(16) = 4
         # TODO: Change this to be based on objectives
-        for friendly in player_entities:
-            for enemies in enemy_entities:
-                calculated_weight_score += weight_max_distance * (
-                    4
-                    - math.sqrt(
-                        abs(friendly[2] - enemies[2]) + abs(friendly[3] - enemies[3])
-                    )
-                )
+        for f in friendlyEntities:
+            for e in enemyEntities:
+                distance = math.sqrt(abs(f[2] - e[2]) + abs(f[3] - e[3]))
+                calculated_weight_score += weight_max_distance * (4 - distance)
         score += calculated_weight_score * weight_max_distance
 
         self._score = score
