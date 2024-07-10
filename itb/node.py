@@ -89,6 +89,7 @@ class Node:
         # Edit score based on entity proximity
         #   Base score for entities that are close to the enemy
         #   Note: Max score from this is 4 as sqrt(sum(dx, dy)) = sqrt(16) = 4
+        # TODO: Change this to be based on objectives
         for friendly in player_entities:
             for enemies in enemy_entities:
                 calculated_weight_score += weight_max_distance * (
