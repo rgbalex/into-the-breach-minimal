@@ -36,10 +36,12 @@ jobs:
       run: |
         pytest
     - name: Collect coverage data
+      if: success()
       run: |
         coverage run --source=itb -m pytest
         coverage report -m
     - name: File coverage html report
+      if: success()
       run: |
         coverage html
     - name: Upload coverage html report
