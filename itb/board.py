@@ -54,7 +54,6 @@ class Board:
         if maximisingPlayer:
             value = float("-inf")
             for child in node:
-                # TODO: Wrapper for playertype flip flop
                 value = max(value, self.minimax(child, depth - 1, False))
             return value
         else:  # Minimising player

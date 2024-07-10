@@ -28,7 +28,7 @@ class BaseTile:
     def get_type(self):
         return self._type
 
-    # TODO: Define types for tile content entities
+    # DEPRECIATED: Define types for tile content entities
     def set_contents(self, contents):
         self._contents = contents
 
