@@ -59,7 +59,10 @@ jobs:
       - name: Load .env file
         uses: ./.github/actions/dotenv-action
         with:
+          path: .env
+          keys-case: lower
           ensure-exists: true
+          log-variables: true
       - name: Create Tag with version
         if: success() && github.event_name == 'push' 
         run: |
