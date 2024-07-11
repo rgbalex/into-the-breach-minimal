@@ -24,6 +24,7 @@ pygame.display.set_caption(f"AGENT DIFFICULTY TESTER VERSION v{VERSION}")
 # Define some colors
 WHITE = (255, 255, 255)
 GREY = (200, 200, 200)
+GREY_DARK = (100, 100, 100)
 BLACK = (0, 0, 0)
 
 
@@ -131,7 +132,57 @@ for i in range(len(board)):
         button.coords = (i, j)
         board[j][i] = button
 
-font = pygame.font.Font(None, 36)
+# fmt: off
+def draw_sides(screen):
+    # draw parallelograms down the left side
+    pad_vertical = 5
+    for i in range(8):
+        item : IsometricButton = board[i][0]
+        pygame.draw.polygon(
+            screen,
+            GREY_DARK,
+            [
+                (item.x - item.width/2 - 4,         item.iso_bottom + item.height/4 + 45    + pad_vertical ),
+                (item.x - item.width/2 - 4,         item.iso_bottom + item.height/4 + 16    + pad_vertical ),
+                (item.x - 4,  item.y + item.height/4 + 16             + pad_vertical ),
+                (item.x - 4,  item.y + item.height/4 + 45             + pad_vertical ),
+            ],
+        )
+    # draw parallelograms down the right side
+    pad_vertical = 5
+    for i in range(8):
+        item : IsometricButton = board[7][i]
+        pygame.draw.polygon(
+            screen,
+            WHITE,
+            [
+                (item.x + item.width/2 + 4,         item.iso_bottom + item.height/4 + 45    + pad_vertical ),
+                (item.x + item.width/2 + 4,         item.iso_bottom + item.height/4 + 16    + pad_vertical ),
+                (item.iso_left + item.width/2 + 4,  item.y + item.height/4 + 16             + pad_vertical ),
+                (item.iso_left + item.width/2 + 4,  item.y + item.height/4 + 45             + pad_vertical ),
+            ],
+        )
+# fmt: on
+
+
+def draw_axis_labels(screen):
+    text = font.render("X", True, WHITE)
+    text_rect = text.get_rect(center=(SCREEN_WIDTH // 4, SCREEN_HEIGHT // 3))
+    screen.blit(text, text_rect)
+    # Draw the x-axis labels
+    for i in range(8):
+        text = font.render(f"{i}", True, BLACK)
+        text_rect = text.get_rect(center=(board[0][i].x - 50, board[0][i].y))
+        screen.blit(text, text_rect)
+
+    text = font.render("Y", True, WHITE)
+    text_rect = text.get_rect(center=(SCREEN_WIDTH // 4, (2.6 * SCREEN_HEIGHT) // 3))
+    screen.blit(text, text_rect)
+    # Draw the y-axis labels
+    for i in range(8):
+        text = font.render(f"{i}", True, WHITE)
+        text_rect = text.get_rect(center=(board[i][0].x - 44, board[i][0].y + 48))
+        screen.blit(text, text_rect)
 
 
 def draw_title(screen):
@@ -139,6 +190,8 @@ def draw_title(screen):
     text_rect = title.get_rect(center=(SCREEN_WIDTH // 2, 50))
     screen.blit(title, text_rect)
 
+
+font = pygame.font.Font(None, 36)
 
 # Main loop
 running = True
@@ -150,14 +203,17 @@ while running:
             for button in row:
                 button.handle_event(event)
 
-    # Draw everything
+    # draw board
     screen.fill(BLACK)
     for row in board:
         for button in row:
             button.draw(screen)
+    # draw sides
+    draw_sides(screen)
 
     # add title text
     draw_title(screen)
+    draw_axis_labels(screen)
 
     pygame.display.flip()
 
