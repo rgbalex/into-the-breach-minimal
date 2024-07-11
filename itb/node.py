@@ -125,7 +125,7 @@ class Node:
 
     def to_json(self):
         return (
-            '{"player":"'
+            '{"playerTurn":"'
             + str(self._player.name)
             + '",'
             + '"depth": '

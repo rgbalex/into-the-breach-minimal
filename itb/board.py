@@ -51,12 +51,12 @@ class Board:
             # TODO: the heuristic value of the node
             return node.get_score()
 
-        if maximisingPlayer == PlayerType.MECH:
+        if maximisingPlayer == PlayerType.BUG:
             value = float("-inf")
             for child in node:
                 value = max(value, self.minimax(child, depth - 1, PlayerType.BUG))
             return value
-        elif maximisingPlayer == PlayerType.BUG:  # Minimising player
+        elif maximisingPlayer == PlayerType.MECH:  # Minimising player
             value = float("inf")
             for child in node:
                 value = min(value, self.minimax(child, depth - 1, PlayerType.MECH))
