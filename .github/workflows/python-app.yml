@@ -51,3 +51,16 @@ jobs:
         if-no-files-found: error
         name: coverage-report
         path: htmlcov/
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Load .env file
+        uses: ./.github/actions/dotenv-action
+        with:
+          ensure-exists: true
+      - name: Create Tag with version
+        if: success() && github.event_name == 'push' 
+        run: |
+          git tag -a v${{ steps.dotenv.outputs.version }} -m "v${{ steps.dotenv.outputs.version }}"
+          git push origin v${{ steps.dotenv.outputs.version }}
