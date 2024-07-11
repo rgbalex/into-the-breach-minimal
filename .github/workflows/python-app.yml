@@ -65,5 +65,7 @@ jobs:
       - name: Create Tag with version
         if: success() && github.event_name == 'push' 
         run: |
-          git tag -a v${{ steps.dotenv.outputs.version }} -m "v${{ steps.dotenv.outputs.version }}"
-          git push origin v${{ steps.dotenv.outputs.version }}
+          # git tag -a v${{ steps.dotenv.outputs.version }} -m "v${{ steps.dotenv.outputs.version }}"
+          # git push origin v${{ steps.dotenv.outputs.version }}
+          echo " v${{ steps.dotenv.outputs.version }} "
+          echo " v${{ steps.dotenv.outputs }} "
