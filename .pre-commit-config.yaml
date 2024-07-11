@@ -17,3 +17,4 @@ repos:
       entry: .\\scripts\\increment_version.bat
       language: system
       types: [batch]
+      always_run: true
