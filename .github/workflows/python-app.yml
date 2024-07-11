@@ -63,8 +63,9 @@ jobs:
           path: .env
           keys-case: lower
           log-variables: true
-      - name: Create Tag with version
+      - name: Push new tag
         if: success() && github.event_name == 'push' 
-        run: |
-          git tag -a v${{ steps.dotenv.outputs.version }} -m "v${{ steps.dotenv.outputs.version }}"
-          git push origin v${{ steps.dotenv.outputs.version }}
+        uses: anothrNick/github-tag-action@1.70.0
+        env:
+          PRERELEASE: true
+          CUSTOM_TAG: ${{ steps.dotenv.outputs.version }}
