@@ -1,5 +1,5 @@
 [![Code Style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Tests and Coverage](https://github.com/rgbalex/into-the-breach-minimal/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/rgbalex/into-the-breach-minimal/actions/workflows/python-app.yml)
+[![Automation](https://github.com/rgbalex/into-the-breach-minimal/actions/workflows/python-app.yml/badge.svg?branch=main&event=push)](https://github.com/rgbalex/into-the-breach-minimal/actions/workflows/python-app.yml)
 
 # into-the-breach-minimal
 A minimal recreation of Into the Breach for use with my dissertation project. 
