@@ -2,4 +2,4 @@ pytest
 fluentcheck
 pre-commit
 numpy
-customtkinter
+pygame

@@ -11,8 +11,11 @@ VERSION = os.getenv("VERSION")
 pygame.init()
 
 # Set the screen dimensions
-SCREEN_WIDTH = 1027
-SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 1027 / 2 * 3
+SCREEN_HEIGHT = 1000 / 4 * 5
+
+print(f"Setting screen dimensions to {SCREEN_WIDTH}x{SCREEN_HEIGHT}")
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Set the title of the window
@@ -109,7 +112,7 @@ pad_vertical = 1.1
 pad_horizontal = 1.1
 offset_vertical = (SCREEN_HEIGHT / 2) + 100
 offset_horizontal = SCREEN_WIDTH / 8
-measure = IsometricButton(8196, 8196, 100, 100, GREY)
+measure = IsometricButton(8196, 8196, 150, 150, GREY)
 
 
 board = [[None for _ in range(8)] for _ in range(8)]
@@ -124,7 +127,7 @@ for i in range(len(board)):
         x += offset_horizontal
         y += offset_vertical
 
-        button = IsometricButton(x, y, 100, 100, GREY)
+        button = IsometricButton(x, y, measure.width, measure.height, GREY)
         button.coords = (i, j)
         board[j][i] = button
 
