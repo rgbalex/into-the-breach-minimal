@@ -132,37 +132,36 @@ for i in range(len(board)):
         button.coords = (i, j)
         board[j][i] = button
 
-# fmt: off
+
 def draw_sides(screen):
     # draw parallelograms down the left side
     pad_vertical = 5
     for i in range(8):
-        item : IsometricButton = board[i][0]
+        item: IsometricButton = board[i][0]
         pygame.draw.polygon(
             screen,
             GREY_DARK,
             [
-                (item.x - item.width/2 - 4,         item.iso_bottom + item.height/4 + 45    + pad_vertical ),
-                (item.x - item.width/2 - 4,         item.iso_bottom + item.height/4 + 16    + pad_vertical ),
-                (item.x - 4,  item.y + item.height/4 + 16             + pad_vertical ),
-                (item.x - 4,  item.y + item.height/4 + 45             + pad_vertical ),
+                (item.iso_left - 4, item.y + pad_vertical),
+                (item.iso_left - 4, item.iso_top + pad_vertical),
+                (item.x - 4, item.iso_top + (item.iso_top - item.y) + pad_vertical),
+                (item.x - 4, item.iso_top + pad_vertical),
             ],
         )
     # draw parallelograms down the right side
     pad_vertical = 5
     for i in range(8):
-        item : IsometricButton = board[7][i]
+        item: IsometricButton = board[7][i]
         pygame.draw.polygon(
             screen,
             WHITE,
             [
-                (item.x + item.width/2 + 4,         item.iso_bottom + item.height/4 + 45    + pad_vertical ),
-                (item.x + item.width/2 + 4,         item.iso_bottom + item.height/4 + 16    + pad_vertical ),
-                (item.iso_left + item.width/2 + 4,  item.y + item.height/4 + 16             + pad_vertical ),
-                (item.iso_left + item.width/2 + 4,  item.y + item.height/4 + 45             + pad_vertical ),
+                (item.iso_right + 4, item.y + pad_vertical),
+                (item.iso_right + 4, item.iso_top + pad_vertical),
+                (item.x + 4, item.iso_top + (item.iso_top - item.y) + pad_vertical),
+                (item.x + 4, item.iso_top + pad_vertical),
             ],
         )
-# fmt: on
 
 
 def draw_axis_labels(screen):
@@ -181,7 +180,7 @@ def draw_axis_labels(screen):
     # Draw the y-axis labels
     for i in range(8):
         text = font.render(f"{i}", True, WHITE)
-        text_rect = text.get_rect(center=(board[i][0].x - 44, board[i][0].y + 48))
+        text_rect = text.get_rect(center=(board[i][0].x - 45, board[i][0].y + 55))
         screen.blit(text, text_rect)
 
 
