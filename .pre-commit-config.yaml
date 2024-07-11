@@ -12,3 +12,8 @@ repos:
       types: [python]
       pass_filenames: false
       always_run: true
+    - id: increment_version
+      name: increment_version
+      entry: .\\scripts\\increment_version.bat
+      language: system
+      types: [batch]
