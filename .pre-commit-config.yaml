@@ -13,7 +13,7 @@ repos:
       pass_filenames: false
       always_run: true
     - id: increment_version
-      name: increment_version
+      name: Auto Increment Patch
       entry: .\\scripts\\increment_version.bat
       language: system
       types: [batch]
