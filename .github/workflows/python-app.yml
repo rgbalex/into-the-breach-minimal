@@ -67,6 +67,5 @@ jobs:
         if: success() && github.event_name == 'push' 
         uses: anothrNick/github-tag-action@1.70.0
         env:
-          PRERELEASE: true
-          CUSTOM_TAG: ${{ steps.dotenv.outputs.version }}
           GITHUB_TOKEN: ${{ secrets.TAG_ACTION_TOKEN }} 
+          CUSTOM_TAG: ${{ steps.dotenv.outputs.version }}
