@@ -69,3 +69,4 @@ jobs:
         env:
           PRERELEASE: true
           CUSTOM_TAG: ${{ steps.dotenv.outputs.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TAG_ACTION_TOKEN }} 
