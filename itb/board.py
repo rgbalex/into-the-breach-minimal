@@ -64,7 +64,13 @@ class Board:
             value = float("-inf")
             for child in node:
                 carry = self.minimax(child, depth - 1, PlayerType.BUG)
-                if carry.value > value:
+                if (carry.value == value) and np.random.choice([True, False]):
+                    # Add a random element to the choice
+                    # This is to prevent the same move being chosen every time
+                    # and to add some randomness to the AI
+                    value = carry.value
+                    carry.node = child
+                elif carry.value > value:
                     value = carry.value
                     carry.node = child
             return carry

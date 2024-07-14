@@ -1,4 +1,4 @@
-import sys, os
+import sys, os, numpy as np
 
 from itb.board import Board
 from itb.level_importer import LevelImporter
