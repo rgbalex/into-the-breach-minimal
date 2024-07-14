@@ -5,6 +5,15 @@ from itb.state import State
 from itb.node import Node
 
 
+class MinimaxResult:
+    def __init__(self, value: float, node: Node):
+        self.value = value
+        self.node = node
+
+    def __str__(self) -> str:
+        return f"Value: {self.value} Node: {self.node}"
+
+
 class Board:
     _tiles = None
     _entity_dict = EntityDictionary()
@@ -44,23 +53,29 @@ class Board:
         self._root = root
         return root
 
-    def minimax(self, node, depth: int, maximisingPlayer: PlayerType):
-        # TODO: Implement minimax
+    def minimax(self, node, depth: int, maximisingPlayer: PlayerType) -> MinimaxResult:
         # see https://en.wikipedia.org/wiki/Minimax
         if node.is_terminal():
-            # TODO: the heuristic value of the node
-            return node.get_score()
+            return MinimaxResult(node.get_score(), node)
+
+        carry: MinimaxResult = None
 
         if maximisingPlayer == PlayerType.BUG:
             value = float("-inf")
             for child in node:
-                value = max(value, self.minimax(child, depth - 1, PlayerType.BUG))
-            return value
+                carry = self.minimax(child, depth - 1, PlayerType.BUG)
+                if carry.value > value:
+                    value = carry.value
+                    carry.node = child
+            return carry
         elif maximisingPlayer == PlayerType.MECH:  # Minimising player
             value = float("inf")
             for child in node:
-                value = min(value, self.minimax(child, depth - 1, PlayerType.MECH))
-            return value
+                carry = self.minimax(child, depth - 1, PlayerType.MECH)
+                if carry.value < value:
+                    value = carry.value
+                    carry.node = child
+            return carry
 
     def __str__(self) -> str:
         output = "Entities:\n"
