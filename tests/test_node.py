@@ -3,11 +3,12 @@ import numpy as np
 
 from itb.node import Node
 from itb.state import State
-from itb.entities import PlayerType
+from itb.entities import EntityDictionary, PlayerType
 
 
 class TestNode(unittest.TestCase):
     def setUp(self):
+        self.entity_dict = EntityDictionary()
         self.tiles = [
             [1, 1, 1, 1, 1, 1, 1, 1],
             [0, 1, 1, 1, 1, 1, 1, 0],
@@ -24,7 +25,7 @@ class TestNode(unittest.TestCase):
         state = State(self.tiles, entities)
         # Despite asking for a depth of 3, the node will be terminal
         # as there are no available moves
-        node = Node(state, None, PlayerType.BUG, 3)
+        node = Node(state, None, PlayerType.BUG, 3, self.entity_dict)
         print(node)
 
         self.assertEqual(node.is_terminal(), True)
@@ -32,7 +33,7 @@ class TestNode(unittest.TestCase):
     def test_get_available_moves_one_enemy_depth_one(self):
         entities = [(1, 0, 0, 0), (4, 0, 7, 7)]
         state = State(self.tiles, entities)
-        node = Node(state, None, PlayerType.BUG, 1)
+        node = Node(state, None, PlayerType.BUG, 1, self.entity_dict)
         print(node)
 
         self.assertEqual(node.is_terminal(), False)
@@ -56,7 +57,7 @@ class TestNode(unittest.TestCase):
     def test_get_available_moves_one_enemy_depth_two(self):
         entities = [(1, 0, 0, 0), (4, 0, 7, 7)]
         state = State(self.tiles, entities)
-        node = Node(state, None, PlayerType.BUG, 2)
+        node = Node(state, None, PlayerType.BUG, 2, self.entity_dict)
         print(node)
 
         self.assertEqual(node.is_terminal(), False)

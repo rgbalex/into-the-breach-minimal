@@ -1,6 +1,6 @@
-import math
+import os, math
 
-from itb.entities import PlayerType, get_opponent
+from itb.entities import BaseEntity, PlayerType, get_opponent, EntityDictionary
 from itb.state import State
 
 inf = float("inf")
@@ -24,12 +24,20 @@ class Node:
             return True if self._player == PlayerType.BUG else False
         raise ValueError(f"Entity type {playerType} is not a defined player type.")
 
-    def __init__(self, state: State, parent, player: PlayerType, depth: int):
+    def __init__(
+        self,
+        state: State,
+        parent,
+        player: PlayerType,
+        depth: int,
+        entity_dict: EntityDictionary,
+    ):
         self._state = state
         self._player: PlayerType = player
         self._depth = depth
         self._parent = parent
         self._children = []
+        self.entity_dict = entity_dict
 
         # self._score = self._state.calculate_value()
 
@@ -47,7 +55,9 @@ class Node:
                 l = tuple(l)
                 s = State(tiles=self._state._tiles, entities=l)
                 self._children.append(
-                    Node(s, self, get_opponent(self._player), depth - 1)
+                    Node(
+                        s, self, get_opponent(self._player), depth - 1, self.entity_dict
+                    )
                 )
 
         self._score = self.calculate_value()
@@ -62,10 +72,11 @@ class Node:
             for e in self._state.list_entities()
             if not self.is_enemy_entity_type(e[0])
         ]
-
+        enemyEntitiesPositions = [(e[2], e[3]) for e in enemyEntities]
         # edit these parameters
         weight_base: float = 1.0
         weight_health: float = 0.5
+        weight_tiles_to_attack: float = 1.0
         # note - this is affecting a value with range 0-4
         weight_max_distance: float = 0.8
 
@@ -96,8 +107,25 @@ class Node:
                 calculated_weight_score += weight_max_distance * (4 - distance)
         score += calculated_weight_score * weight_max_distance
 
+        # TODO: Edit score based on attacks on enemies possible
+        f: BaseEntity  # For typechecking suggestions
+        # For every friendly entity
+        for f in friendlyEntities:
+            # Get all possible attacks
+            possible_attacks = self.entity_dict.create_entity(f).get_available_attacks()
+            tiles_to_attack = [(f[2] + a[0], f[3] + a[1]) for a in possible_attacks]
+            # For every enemy entity
+            for e in enemyEntities:
+                # If the enemy entity is in the list of tiles to attack
+                if (e[2], e[3]) in tiles_to_attack:
+                    # Increase the score
+                    score += 1 * weight_tiles_to_attack
+
         self._score = score
-        print(f"Calculated score: {score}\n")
+
+        if "verbose" in os.environ:
+            if os.environ["verbose"] == "true":
+                print(f"Node Depth: {self._depth} Calculated score: {score}")
         return score
 
     def count_nodes(self) -> int:

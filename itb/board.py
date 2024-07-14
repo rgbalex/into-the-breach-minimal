@@ -40,7 +40,7 @@ class Board:
         self._tiles[y][x] = tile
 
     def get_available_moves_depth(self, mode: PlayerType, depth: int):
-        root = Node(self._state, None, mode, depth)
+        root = Node(self._state, None, mode, depth, self._entity_dict)
         self._root = root
         return root
 

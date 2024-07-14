@@ -17,7 +17,7 @@ def main():
     print(b)
 
     print("== Enemy's turn == ")
-    b.get_available_moves_depth(PlayerType.BUG, 1)
+    b.get_available_moves_depth(PlayerType.BUG, 2)
     s.tree = b.get_root()
 
     print("Serialising...")
@@ -34,7 +34,7 @@ def main():
     b.summary()
 
     val = b.minimax(b.get_root(), 2, PlayerType.BUG)
-    print(f"Minimax value: {val}")
+    print(f"\nMinimax value: {val}")
 
 
 if __name__ == "__main__":
