@@ -78,10 +78,10 @@ class Board:
                     # This is to prevent the same move being chosen every time
                     # and to add some randomness to the AI
                     value = carry.value
-                    carry.node = child
+                    # carry.node = child
                 elif carry.value > value:
                     value = carry.value
-                    carry.node = child
+                    # carry.node = child
             return carry
         elif maximisingPlayer == PlayerType.MECH:  # Minimising player
             value = float("inf")
