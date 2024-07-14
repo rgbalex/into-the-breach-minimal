@@ -53,18 +53,28 @@ class Board:
         self._root = root
         return root
 
-    def minimax(self, node, depth: int, maximisingPlayer: PlayerType) -> MinimaxResult:
+    def minimax(
+        self, node, maximisingPlayer: PlayerType, depth: int = -1
+    ) -> MinimaxResult:
+        print(
+            f"Minimax called with depth {depth}, player {maximisingPlayer}, node depth {node.get_depth()}"
+        )
         # see https://en.wikipedia.org/wiki/Minimax
-        if node.is_terminal():
+        if (depth == 0) or node.is_terminal():
             return MinimaxResult(node.get_score(), node)
+
+        if depth > node.get_depth():
+            raise ValueError("Depth cannot be greater than the depth of the node")
 
         carry: MinimaxResult = None
 
         if maximisingPlayer == PlayerType.BUG:
             value = float("-inf")
             for child in node:
-                carry = self.minimax(child, depth - 1, PlayerType.BUG)
-                if (carry.value == value) and np.random.choice([True, False]):
+                carry = self.minimax(child, PlayerType.BUG, depth - 1)
+                random = np.random.choice([True, False])
+                print(f"Carry: {carry.value} Value: {value} Random: {random}")
+                if (carry.value == value) and random:
                     # Add a random element to the choice
                     # This is to prevent the same move being chosen every time
                     # and to add some randomness to the AI
@@ -78,7 +88,13 @@ class Board:
             value = float("inf")
             for child in node:
                 carry = self.minimax(child, depth - 1, PlayerType.MECH)
-                if carry.value < value:
+                if (carry.value == value) and np.random.choice([True, False]):
+                    # Add a random element to the choice
+                    # This is to prevent the same move being chosen every time
+                    # and to add some randomness to the AI
+                    value = carry.value
+                    carry.node = child
+                elif carry.value < value:
                     value = carry.value
                     carry.node = child
             return carry
