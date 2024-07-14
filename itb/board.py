@@ -74,14 +74,15 @@ class Board:
                 carry = self.minimax(child, PlayerType.BUG, depth - 1)
                 if (carry.value == value) and np.random.choice([True, False]):
                     print("Carry.value == value && random and BUG")
+                    print(
+                        f"Maximising player: {maximisingPlayer}, Node Player: {node._player}"
+                    )
                     # Add a random element to the choice
                     # This is to prevent the same move being chosen every time
                     # and to add some randomness to the AI
                     value = carry.value
-                    # carry.node = child
                 elif carry.value > value:
                     value = carry.value
-                    # carry.node = child
             return carry
         elif maximisingPlayer == PlayerType.MECH:  # Minimising player
             value = float("inf")
