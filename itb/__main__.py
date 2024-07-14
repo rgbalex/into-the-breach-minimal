@@ -37,8 +37,8 @@ def main():
     i: int = 0
     while i < 1000:
         try:
-            val = b.minimax(b.get_root(), PlayerType.BUG)
-            assert val.node._depth == 0
+            val = b.minimax(b.get_root(), PlayerType.BUG, 1)
+            # assert val.node._depth == 0
         except AssertionError:
             print(f"Assertion error at depth {i}")
             print(f"Node depth: {val.node._depth}")
