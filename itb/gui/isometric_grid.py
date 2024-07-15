@@ -11,15 +11,19 @@ class IsometricGrid:
     def __init__(self, screen_width, screen_height, board):
         load_dotenv()
         pygame.init()
+
         self.screen_width = screen_width
         self.screen_height = screen_height
         print(f"Setting screen dimensions to {screen_width}x{screen_height}")
+
         self.version = os.getenv("VERSION")
         pygame.display.set_caption(f"AGENT DIFFICULTY TESTER VERSION v{self.version}")
+
         self.screen = pygame.display.set_mode((screen_width, screen_height))
         self.buttons = []
         self.display_board = [[None for _ in range(8)] for _ in range(8)]
         self.font = pygame.font.Font(None, 36)
+
         self.game_board = board
 
     def run(self):
