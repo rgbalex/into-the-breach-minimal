@@ -1,4 +1,5 @@
-from itb.board import Board, MinimaxResult
+from itb.minimax_result import MinimaxResult
+from itb.board import Board
 from itb.level_importer import LevelImporter
 from itb.entities import PlayerType
 from itb.serialise import Serialiser
@@ -9,28 +10,23 @@ class Main:
 
     SCREEN_WIDTH = 1027 // 2 * 3
     SCREEN_HEIGHT = 1000 // 4 * 5
+    level_to_load = "itb/maps/test-04.txt"
 
-    board = Board()
-    grid = IsometricGrid(SCREEN_WIDTH, SCREEN_HEIGHT)
-    serialiser = Serialiser()
-    level_importer = LevelImporter()
-
-    verbose = True
+    verbose = False
     serialise = True
     dump_output_txt = False
+
+    board = Board(level_to_load)
+    grid = IsometricGrid(SCREEN_WIDTH, SCREEN_HEIGHT, board)
+    serialiser = Serialiser()
+    level_importer = LevelImporter()
 
     def print(s, *args):
         if s.verbose:
             print(*args)
 
-    def load(s):
-        s.level_importer.load_level("itb/maps/test-04.txt")
-        s.board.import_level(
-            s.level_importer.get_tiles(), s.level_importer.get_entities()
-        )
-        s.print(s.board)
-
     def run(s):
+        s.print(s.board)
         s.grid.run()
 
         s.print("== Enemy's turn == ")
@@ -56,5 +52,4 @@ class Main:
 
 if __name__ == "__main__":
     m = Main()
-    m.load()
     m.run()

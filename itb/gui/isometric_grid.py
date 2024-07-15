@@ -8,7 +8,7 @@ from itb.gui.colours import BLACK, GREY, GREY_DARK, WHITE
 
 
 class IsometricGrid:
-    def __init__(self, screen_width, screen_height):
+    def __init__(self, screen_width, screen_height, board):
         load_dotenv()
         pygame.init()
         self.screen_width = screen_width
@@ -18,8 +18,9 @@ class IsometricGrid:
         pygame.display.set_caption(f"AGENT DIFFICULTY TESTER VERSION v{self.version}")
         self.screen = pygame.display.set_mode((screen_width, screen_height))
         self.buttons = []
-        self.board = [[None for _ in range(8)] for _ in range(8)]
+        self.display_board = [[None for _ in range(8)] for _ in range(8)]
         self.font = pygame.font.Font(None, 36)
+        self.game_board = board
 
     def run(self):
         self.create_board(
@@ -40,8 +41,8 @@ class IsometricGrid:
         self, pad_horizontal, pad_vertical, offset_horizontal, offset_vertical
     ):
         measure = self.create_button(8196, 8196, 150, 150, GREY)
-        for i in range(len(self.board)):
-            for j in range(len(self.board)):
+        for i in range(len(self.display_board)):
+            for j in range(len(self.display_board)):
                 x = (i + j) * (measure.width / 2)
                 y = (j - i) * (measure.height / 3)
 
@@ -53,12 +54,12 @@ class IsometricGrid:
 
                 button = self.create_button(x, y, measure.width, measure.height, GREY)
                 button.coords = (i, j)
-                self.board[j][i] = button
+                self.display_board[j][i] = button
 
     def draw_sides(self):
         pad_vertical = 5
         for i in range(8):
-            item: IsometricButton = self.board[i][0]
+            item: IsometricButton = self.display_board[i][0]
             pygame.draw.polygon(
                 self.screen,
                 GREY_DARK,
@@ -72,7 +73,7 @@ class IsometricGrid:
 
         pad_vertical = 5
         for i in range(8):
-            item: IsometricButton = self.board[7][i]
+            item: IsometricButton = self.display_board[7][i]
             pygame.draw.polygon(
                 self.screen,
                 WHITE,
@@ -94,7 +95,7 @@ class IsometricGrid:
         for i in range(8):
             text = self.font.render(f"{i}", True, BLACK)
             text_rect = text.get_rect(
-                center=(self.board[0][i].x - 50, self.board[0][i].y)
+                center=(self.display_board[0][i].x - 50, self.display_board[0][i].y)
             )
             self.screen.blit(text, text_rect)
 
@@ -107,7 +108,10 @@ class IsometricGrid:
         for i in range(8):
             text = self.font.render(f"{i}", True, WHITE)
             text_rect = text.get_rect(
-                center=(self.board[i][0].x - 45, self.board[i][0].y + 55)
+                center=(
+                    self.display_board[i][0].x - 45,
+                    self.display_board[i][0].y + 55,
+                )
             )
             self.screen.blit(text, text_rect)
 
@@ -122,14 +126,14 @@ class IsometricGrid:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
-            for row in self.board:
+            for row in self.display_board:
                 for button in row:
                     button.handle_event(event)
         return True
 
     def draw(self):
         self.screen.fill(BLACK)
-        for row in self.board:
+        for row in self.display_board:
             for button in row:
                 button.draw(self.screen)
         self.draw_sides()

@@ -7,7 +7,7 @@ from itb.entities import PlayerType
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
-        self.board = Board()
+        self.board = Board(None)
         self.map_data = [[1, 1, 1], [1, 0, 1], [1, 1, 1]]
 
     def test_import_map(self):

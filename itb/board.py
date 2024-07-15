@@ -1,42 +1,37 @@
 import numpy as np
 
+from itb.minimax_result import MinimaxResult
 from itb.entities import EntityDictionary, PlayerType
 from itb.state import State
 from itb.node import Node
-
-
-class MinimaxResult:
-    def __init__(self, value: float, node: Node):
-        self.value = value
-        self.node = node
-
-    def __str__(self) -> str:
-        return f"Value: {self.value} Node: {self.node}"
+from itb.level_importer import LevelImporter
 
 
 class Board:
     _tiles = None
     _entity_dict = EntityDictionary()
+    _l = LevelImporter()
     _state = None
     _root = None
+
+    def __init__(self, level_to_load: str):
+        if level_to_load is not None:
+            self._l.load_level(level_to_load)
+            self.import_level(self._l.get_tiles(), self._l.get_entities())
 
     def import_level(self, map_data: list[list[int]], entities: list[tuple[int]]):
         self._tiles = map_data
         s = State(self._tiles, entities)
         print(entities)
         self._state = s
-        # print(f"SHOULD NOT BE THE SAME {id(self._state._entities[1])} {id(entities[1])}",)
 
     def summary(self):
         if self._root is None:
             print("No root node")
             return
 
-        # print the depth of the tree
         print(f"Depth of the tree: {self._root.get_depth()}")
-        # print number of nodes in the tree
         print(f"Number of nodes in the tree: {self._root.count_nodes()}")
-        # print the number of leaf nodes in the tree
         print(f"Number of leaf nodes in the tree: {self._root.count_leaf_nodes()}")
 
     def get_root(self):
