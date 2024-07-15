@@ -1,5 +1,6 @@
 pytest
 fluentcheck
 pre-commit
+coverage-badge
 numpy
 pygame

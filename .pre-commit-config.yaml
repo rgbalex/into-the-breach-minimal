@@ -18,3 +18,9 @@ repos:
       language: system
       types: [batch]
       always_run: true
+    - id: generate_coverage_badge
+      name: Generate Coverage Badge
+      entry: .\\scripts\\generate_coverage_badge.bat
+      language: system
+      types: [batch]
+      always_run: true
