@@ -1,5 +1,4 @@
 import os, pygame
-from threading import Thread
 
 from dotenv import load_dotenv
 
