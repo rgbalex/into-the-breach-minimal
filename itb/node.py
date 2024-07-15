@@ -1,5 +1,7 @@
 import os, math
 
+from typing import Optional
+
 from itb.entities import BaseEntity, PlayerType, get_opponent, EntityDictionary
 from itb.state import State
 
@@ -139,6 +141,12 @@ class Node:
 
     def get_score(self) -> float:
         return self._score
+
+    def get_parent(self) -> Optional["Node"]:
+        return self._parent
+
+    def get_player(self) -> PlayerType:
+        return self._player
 
     def count_leaf_nodes(self) -> int:
         count = 0

@@ -48,7 +48,7 @@ class Board:
         self._root = root
         return root
 
-    def minimax(self, node, maximisingPlayer: PlayerType, depth=-1):
+    def minimax(self, node: Node, maximisingPlayer: PlayerType, depth=-1):
         # see https://en.wikipedia.org/wiki/Minimax
         if (depth == 0) or node.is_terminal():
             return MinimaxResult(node.get_score(), node)
@@ -56,36 +56,24 @@ class Board:
         if depth > node.get_depth():
             raise ValueError("Depth cannot be greater than the depth of the node")
 
-        carry: MinimaxResult = None
+        return_value: MinimaxResult = None
+        current_value: MinimaxResult = None
 
-        if maximisingPlayer == PlayerType.BUG:
-            value = float("-inf")
+        if n := node.get_player() == maximisingPlayer:
+            print(n)
+            return_value = MinimaxResult(-np.inf, None)
             for child in node:
-                carry = self.minimax(child, PlayerType.BUG, depth - 1)
-                if (carry.value == value) and np.random.choice([True, False]):
-                    print("Carry.value == value && random and BUG")
-                    print(
-                        f"Maximising player: {maximisingPlayer}, Node Player: {node._player}"
-                    )
-                    # Add a random element to the choice
-                    # This is to prevent the same move being chosen every time
-                    # and to add some randomness to the AI
-                    value = carry.value
-                elif carry.value > value:
-                    value = carry.value
-            return carry
-        elif maximisingPlayer == PlayerType.MECH:  # Minimising player
-            value = float("inf")
+                current_value = self.minimax(child, maximisingPlayer, depth - 1)
+                if current_value.value > return_value.value:
+                    return_value = current_value
+        else:
+            print(n)
+            return_value = MinimaxResult(np.inf, None)
             for child in node:
-                carry = self.minimax(child, PlayerType.MECH, depth - 1)
-                if (carry.value == value) and np.random.choice([True, False]):
-                    print("Carry.value == value && random and MECH")
-                    value = carry.value
-                    carry.node = child
-                elif carry.value < value:
-                    value = carry.value
-                    carry.node = child
-            return carry
+                current_value = self.minimax(child, maximisingPlayer, depth - 1)
+                if current_value.value < return_value.value:
+                    return_value = current_value
+        return return_value
 
     def __str__(self) -> str:
         output = "Entities:\n"
