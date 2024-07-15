@@ -48,12 +48,7 @@ class Board:
         self._root = root
         return root
 
-    def minimax(
-        self, node, maximisingPlayer: PlayerType, depth: int = -1
-    ) -> MinimaxResult:
-        print(
-            f"Minimax called with depth {depth}, player {maximisingPlayer}, node depth {node.get_depth()}"
-        )
+    def minimax(self, node, maximisingPlayer: PlayerType, depth=-1):
         # see https://en.wikipedia.org/wiki/Minimax
         if (depth == 0) or node.is_terminal():
             return MinimaxResult(node.get_score(), node)
