@@ -2,7 +2,7 @@ from itb.board import Board, MinimaxResult
 from itb.level_importer import LevelImporter
 from itb.entities import PlayerType
 from itb.serialise import Serialiser
-from itb.gui.IsometricGrid import IsometricGrid
+from itb.gui.isometric_grid import IsometricGrid
 
 
 class Main:

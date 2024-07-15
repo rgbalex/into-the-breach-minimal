@@ -3,7 +3,7 @@ from threading import Thread
 
 from dotenv import load_dotenv
 
-from itb.gui.IsometricButton import IsometricButton
+from itb.gui.isometric_button import IsometricButton
 from itb.gui.colours import BLACK, GREY, GREY_DARK, WHITE
 
 
