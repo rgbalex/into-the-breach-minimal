@@ -28,9 +28,6 @@ To install and run this project, follow these steps:
     python -m itb
     ```
 
-<!-- ## Usage -->
-<!-- Once the application is running, you can access it by opening your web browser and navigating to `http://localhost:5000`. From there, you can interact with the minimal recreation of Into the Breach. -->
-
 ## Contributing
 Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
 
