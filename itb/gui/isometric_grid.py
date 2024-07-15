@@ -10,33 +10,124 @@ VERSION = os.getenv("VERSION")
 # Initialize Pygame
 pygame.init()
 
-# Set the screen dimensions
-SCREEN_WIDTH = 1027 / 2 * 3
-SCREEN_HEIGHT = 1000 / 4 * 5
 
-print(f"Setting screen dimensions to {SCREEN_WIDTH}x{SCREEN_HEIGHT}")
+class IsometricGrid:
+    def __init__(self, screen_width, screen_height):
+        self.screen = pygame.display.set_mode((screen_width, screen_height))
+        self.buttons = []
+        self.board = [[None for _ in range(8)] for _ in range(8)]
+        self.font = pygame.font.Font(None, 36)
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    def create_button(self, x, y, width, height, color):
+        button = IsometricButton(x, y, width, height, color)
+        self.buttons.append(button)
+        return button
 
-# Set the title of the window
-pygame.display.set_caption(f"AGENT DIFFICULTY TESTER VERSION v{VERSION}")
+    def create_board(
+        self, measure, pad_horizontal, pad_vertical, offset_horizontal, offset_vertical
+    ):
+        for i in range(len(self.board)):
+            for j in range(len(self.board)):
+                x = (i + j) * (measure.width / 2)
+                y = (j - i) * (measure.height / 3)
 
-# Define some colors
-WHITE = (255, 255, 255)
-GREY = (200, 200, 200)
-GREY_DARK = (100, 100, 100)
-BLACK = (0, 0, 0)
+                x = x * pad_horizontal
+                y = y * pad_vertical
+
+                x += offset_horizontal
+                y += offset_vertical
+
+                button = self.create_button(x, y, measure.width, measure.height, GREY)
+                button.coords = (i, j)
+                self.board[j][i] = button
+
+    def draw_sides(self):
+        pad_vertical = 5
+        for i in range(8):
+            item: IsometricButton = self.board[i][0]
+            pygame.draw.polygon(
+                self.screen,
+                GREY_DARK,
+                [
+                    (item.iso_left - 4, item.y + pad_vertical),
+                    (item.iso_left - 4, item.iso_top + pad_vertical),
+                    (item.x - 4, item.iso_top + (item.iso_top - item.y) + pad_vertical),
+                    (item.x - 4, item.iso_top + pad_vertical),
+                ],
+            )
+
+        pad_vertical = 5
+        for i in range(8):
+            item: IsometricButton = self.board[7][i]
+            pygame.draw.polygon(
+                self.screen,
+                WHITE,
+                [
+                    (item.iso_right + 4, item.y + pad_vertical),
+                    (item.iso_right + 4, item.iso_top + pad_vertical),
+                    (item.x + 4, item.iso_top + (item.iso_top - item.y) + pad_vertical),
+                    (item.x + 4, item.iso_top + pad_vertical),
+                ],
+            )
+
+    def draw_axis_labels(self):
+        text = self.font.render("X", True, WHITE)
+        text_rect = text.get_rect(center=(SCREEN_WIDTH // 4, SCREEN_HEIGHT // 3))
+        self.screen.blit(text, text_rect)
+
+        for i in range(8):
+            text = self.font.render(f"{i}", True, BLACK)
+            text_rect = text.get_rect(
+                center=(self.board[0][i].x - 50, self.board[0][i].y)
+            )
+            self.screen.blit(text, text_rect)
+
+        text = self.font.render("Y", True, WHITE)
+        text_rect = text.get_rect(
+            center=(SCREEN_WIDTH // 4, (2.6 * SCREEN_HEIGHT) // 3)
+        )
+        self.screen.blit(text, text_rect)
+
+        for i in range(8):
+            text = self.font.render(f"{i}", True, WHITE)
+            text_rect = text.get_rect(
+                center=(self.board[i][0].x - 45, self.board[i][0].y + 55)
+            )
+            self.screen.blit(text, text_rect)
+
+    def draw_title(self):
+        title = self.font.render(
+            f"Agent Difficulty Tester Version v{VERSION}", True, WHITE
+        )
+        text_rect = title.get_rect(center=(SCREEN_WIDTH // 2, 50))
+        self.screen.blit(title, text_rect)
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+            for row in self.board:
+                for button in row:
+                    button.handle_event(event)
+        return True
+
+    def draw(self):
+        self.screen.fill(BLACK)
+        for row in self.board:
+            for button in row:
+                button.draw(self.screen)
+        self.draw_sides()
+        self.draw_title()
+        self.draw_axis_labels()
+        pygame.display.flip()
 
 
-# Define the button class
 class IsometricButton:
     def __init__(self, x, y, width, height, color):
         self.once = False
         self.coords = (None, None)
-        # anchored at the middle of the object
         self.x = x
         self.y = y
-        # cartesian width and height of object
         self.width = width
         self.height = height
         self.color = color
@@ -63,7 +154,6 @@ class IsometricButton:
             self.once = False
             color = self.color
 
-        # Draw the button
         pygame.draw.polygon(
             screen,
             color,
@@ -88,7 +178,6 @@ class IsometricButton:
         return (px - p1x) * (p2y - p1y) - (py - p1y) * (p2x - p1x)
 
     def is_point_inside_quadrilateral(self, x, y, x1, y1, x2, y2, x3, y3, x4, y4):
-
         b1 = self.sign(x1, y1, x2, y2, x, y) < 0
         b2 = self.sign(x2, y2, x3, y3, x, y) < 0
         b3 = self.sign(x3, y3, x4, y4, x, y) < 0
@@ -97,7 +186,6 @@ class IsometricButton:
         return (b1 == b2) and (b2 == b3) and (b3 == b4)
 
     def is_mouse_over(self, pos):
-        # check if the mouse is over the button
         x, y = pos
 
         b1 = self.sign(self.iso_left, self.y, self.x, self.iso_top, x, y) < 0
@@ -108,113 +196,35 @@ class IsometricButton:
         return (b1 == b2) and (b2 == b3) and (b3 == b4)
 
 
-# Create a grid of buttons
-pad_vertical = 1.1
-pad_horizontal = 1.1
-offset_vertical = (SCREEN_HEIGHT / 2) + 100
-offset_horizontal = SCREEN_WIDTH / 8
-measure = IsometricButton(8196, 8196, 150, 150, GREY)
+# Set the screen dimensions
+SCREEN_WIDTH = 1027 // 2 * 3
+SCREEN_HEIGHT = 1000 // 4 * 5
 
+print(f"Setting screen dimensions to {SCREEN_WIDTH}x{SCREEN_HEIGHT}")
 
-board = [[None for _ in range(8)] for _ in range(8)]
-for i in range(len(board)):
-    for j in range(len(board)):
-        x = (i + j) * (measure.width / 2)
-        y = (j - i) * (measure.height / 3)
+# Set the title of the window
+pygame.display.set_caption(f"AGENT DIFFICULTY TESTER VERSION v{VERSION}")
 
-        x = x * pad_horizontal
-        y = y * pad_vertical
+# Define some colors
+WHITE = (255, 255, 255)
+GREY = (200, 200, 200)
+GREY_DARK = (100, 100, 100)
+BLACK = (0, 0, 0)
 
-        x += offset_horizontal
-        y += offset_vertical
+# Create the isometric grid
+grid = IsometricGrid(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-        button = IsometricButton(x, y, measure.width, measure.height, GREY)
-        button.coords = (i, j)
-        board[j][i] = button
+# Create a measure button
+measure = grid.create_button(8196, 8196, 150, 150, GREY)
 
-
-def draw_sides(screen):
-    # draw parallelograms down the left side
-    pad_vertical = 5
-    for i in range(8):
-        item: IsometricButton = board[i][0]
-        pygame.draw.polygon(
-            screen,
-            GREY_DARK,
-            [
-                (item.iso_left - 4, item.y + pad_vertical),
-                (item.iso_left - 4, item.iso_top + pad_vertical),
-                (item.x - 4, item.iso_top + (item.iso_top - item.y) + pad_vertical),
-                (item.x - 4, item.iso_top + pad_vertical),
-            ],
-        )
-    # draw parallelograms down the right side
-    pad_vertical = 5
-    for i in range(8):
-        item: IsometricButton = board[7][i]
-        pygame.draw.polygon(
-            screen,
-            WHITE,
-            [
-                (item.iso_right + 4, item.y + pad_vertical),
-                (item.iso_right + 4, item.iso_top + pad_vertical),
-                (item.x + 4, item.iso_top + (item.iso_top - item.y) + pad_vertical),
-                (item.x + 4, item.iso_top + pad_vertical),
-            ],
-        )
-
-
-def draw_axis_labels(screen):
-    text = font.render("X", True, WHITE)
-    text_rect = text.get_rect(center=(SCREEN_WIDTH // 4, SCREEN_HEIGHT // 3))
-    screen.blit(text, text_rect)
-    # Draw the x-axis labels
-    for i in range(8):
-        text = font.render(f"{i}", True, BLACK)
-        text_rect = text.get_rect(center=(board[0][i].x - 50, board[0][i].y))
-        screen.blit(text, text_rect)
-
-    text = font.render("Y", True, WHITE)
-    text_rect = text.get_rect(center=(SCREEN_WIDTH // 4, (2.6 * SCREEN_HEIGHT) // 3))
-    screen.blit(text, text_rect)
-    # Draw the y-axis labels
-    for i in range(8):
-        text = font.render(f"{i}", True, WHITE)
-        text_rect = text.get_rect(center=(board[i][0].x - 45, board[i][0].y + 55))
-        screen.blit(text, text_rect)
-
-
-def draw_title(screen):
-    title = font.render(f"Agent Difficulty Tester Version v{VERSION}", True, WHITE)
-    text_rect = title.get_rect(center=(SCREEN_WIDTH // 2, 50))
-    screen.blit(title, text_rect)
-
-
-font = pygame.font.Font(None, 36)
+# Create the board of buttons
+grid.create_board(measure, 1.1, 1.1, SCREEN_WIDTH / 8, (SCREEN_HEIGHT / 2) + 100)
 
 # Main loop
 running = True
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        for row in board:
-            for button in row:
-                button.handle_event(event)
-
-    # draw board
-    screen.fill(BLACK)
-    for row in board:
-        for button in row:
-            button.draw(screen)
-    # draw sides
-    draw_sides(screen)
-
-    # add title text
-    draw_title(screen)
-    draw_axis_labels(screen)
-
-    pygame.display.flip()
+    running = grid.handle_events()
+    grid.draw()
 
 # Quit Pygame
 pygame.quit()
