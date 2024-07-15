@@ -17,6 +17,7 @@ class Main:
 
     verbose = True
     serialise = True
+    dump_output_txt = False
 
     def print(s, *args):
         if s.verbose:
@@ -41,7 +42,7 @@ class Main:
             s.serialiser.serialise()
             s.print("Output to output.json\n")
 
-        if s.verbose:
+        if s.dump_output_txt:
             print("Dumping output...\n")
             with open("output.txt", "w") as log:
                 log.write(f"Current node: \n{s.serialiser.tree}")
