@@ -1,8 +1,8 @@
-from itb.minimax_result import MinimaxResult
 from itb.board import Board
-from itb.level_importer import LevelImporter
 from itb.entities import PlayerType
 from itb.serialise import Serialiser
+from itb.minimax_result import MinimaxResult
+from itb.level_importer import LevelImporter
 from itb.gui.isometric_grid import IsometricGrid
 
 
