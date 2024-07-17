@@ -30,7 +30,7 @@ class Main:
         s.print(s.board)
 
         s.print("== Enemy's turn == ")
-        s.board.get_available_moves_depth(PlayerType.BUG, 3)
+        s.board.get_available_moves_depth(PlayerType.BUG, 5)
         s.serialiser.tree = s.board.get_root()
 
         if s.dump_output_txt:
