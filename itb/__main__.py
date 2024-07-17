@@ -33,11 +33,6 @@ class Main:
         s.board.get_available_moves_depth(PlayerType.BUG, 3)
         s.serialiser.tree = s.board.get_root()
 
-        if s.serialise:
-            s.print("Serialising tree...")
-            s.serialiser.serialise()
-            s.print("Output to output.json\n")
-
         if s.dump_output_txt:
             print("Dumping output...\n")
             with open("output.txt", "w") as log:
@@ -72,6 +67,11 @@ class Main:
         # Print the nodes in the path from the root to the selected node
         for i in range(len(out)):
             print(out[i])
+
+        if s.serialise:
+            s.print("Serialising tree...")
+            s.serialiser.serialise()
+            s.print("Output to output.json\n")
 
 
 if __name__ == "__main__":

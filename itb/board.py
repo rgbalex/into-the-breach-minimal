@@ -55,6 +55,7 @@ class Board:
         return root
 
     def minimax(self, node: Node, maximisingPlayer: PlayerType, depth=-1):
+        node.calculate_value()
         # see https://en.wikipedia.org/wiki/Minimax
         if (depth == 0) or node.is_terminal():
             return MinimaxResult(node.get_score(), node)

@@ -62,8 +62,6 @@ class Node:
                     )
                 )
 
-        self._score = self.calculate_value()
-
     def calculate_value(self) -> float:
         score: float = 0.0
         enemyEntities = [
