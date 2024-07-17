@@ -9,7 +9,7 @@ from itb.gui.isometric_grid import IsometricGrid
 class Main:
     SCREEN_WIDTH = 1027 // 2 * 3
     SCREEN_HEIGHT = 1000 // 4 * 5
-    level_to_load = "itb/maps/test-04.txt"
+    level_to_load = "itb/maps/archive-inc-1.level"
 
     verbose = False
     serialise = True
@@ -30,7 +30,8 @@ class Main:
         s.print(s.board)
 
         s.print("== Enemy's turn == ")
-        s.board.get_available_moves_depth(PlayerType.BUG, 5)
+        s.board.get_available_moves_depth(PlayerType.BUG, 2)
+        s.board.summary()
         s.serialiser.tree = s.board.get_root()
 
         if s.dump_output_txt:
@@ -39,8 +40,7 @@ class Main:
                 log.write(f"Current node: \n{s.serialiser.tree}")
             print("Output to output.txt\n")
 
-        s.board.summary()
-
+        print("Finding available moves for the enemy...")
         val: MinimaxResult = s.board.minimax(
             s.board.get_root(), s.board.get_root()._player
         )

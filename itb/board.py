@@ -55,9 +55,9 @@ class Board:
         return root
 
     def minimax(self, node: Node, maximisingPlayer: PlayerType, depth=-1):
-        node.calculate_value()
         # see https://en.wikipedia.org/wiki/Minimax
         if (depth == 0) or node.is_terminal():
+            node.calculate_value()
             return MinimaxResult(node.get_score(), node)
 
         if depth > node.get_depth():
@@ -65,10 +65,11 @@ class Board:
 
         return_value: MinimaxResult = None
         current_value: MinimaxResult = None
-
+        child: Node = None
         if node.get_player() == maximisingPlayer:
             return_value = MinimaxResult(-np.inf, None)
             for child in node:
+                child.calculate_value()
                 current_value = self.minimax(child, maximisingPlayer, depth - 1)
                 if (current_value.value == return_value.value) and self._ramdomise:
                     if np.random.choice([True, False]):
