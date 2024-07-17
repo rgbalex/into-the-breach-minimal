@@ -57,14 +57,21 @@ class Main:
         print(s.board)
         print("Selected Move Tree:")
         n = val.node
+
+        # Collect the nodes in the path from the root to the selected node
         out = {}
-        out[0] = f"{n._depth} {PlayerType.MECH} {n._state._entities} {n._score}"
+        max_depth = s.board.get_root().get_depth()
+        out[0] = (
+            f"leaf {max_depth - n._depth} {n._player} {n._state._entities} {n._score}"
+        )
         while n != None:
-            player = n._player
             n = n.get_parent()
             if n != None:
-                out[n._depth] = f"{n._depth} {player} {n._state._entities} {n._score}"
+                out[n._depth] = (
+                    f"{max_depth - n._depth} {n._player} {n._state._entities} {n._score}"
+                )
 
+        # Print the nodes in the path from the root to the selected node
         for i in range(len(out) - 1, -1, -1):
             print(out[i])
 
