@@ -1,3 +1,4 @@
+import datetime
 from itb.board import Board
 from itb.entities import PlayerType
 from itb.serialise import Serialiser
@@ -41,10 +42,14 @@ class Main:
             print("Output to output.txt\n")
 
         print("Finding available moves for the enemy...")
+        start_time = datetime.datetime.now()
+        print(f"Start Time: {start_time}")
         val: MinimaxResult = s.board.minimax(
             s.board.get_root(), s.board.get_root()._player
         )
-
+        end_time = datetime.datetime.now()
+        print(f"End Time: {end_time}")
+        print(f"Time Taken: {end_time - start_time}")
         s.print(f"\nMinimax value: {val}")
 
         print("\n")
