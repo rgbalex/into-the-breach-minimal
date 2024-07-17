@@ -12,3 +12,4 @@ class BugMelee(BaseEntity):
         self.default_health = 3
         self.default_damage = 1
         self.player = PlayerType.BUG
+        self.colour = (179, 160, 138)

@@ -16,3 +16,6 @@ class EntityDictionary:
 
     def get_default_health(self, entity_type: int):
         return self.create_entity((entity_type, 0, 0, 0)).get_health()
+
+    def get_default_colour(self, entity_type: int) -> tuple[int, int, int]:
+        return self.create_entity((entity_type, 0, 0, 0)).get_colour()

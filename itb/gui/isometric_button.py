@@ -4,7 +4,7 @@ from itb.gui.colours import *
 
 
 class IsometricButton:
-    def __init__(self, x, y, width, height, color, callback=None):
+    def __init__(self, x, y, width, height, color, callback=None, update_colour=None):
         self.once = False
         self.coords = (None, None)
         self.x = x
@@ -25,7 +25,13 @@ class IsometricButton:
         if callback is not None:
             self.callback = callback
 
-    def callback(self):
+        if update_colour is not None:
+            self.update_colour = update_colour
+
+    def callback(self, *args):
+        raise NotImplementedError
+
+    def update_colour(self, *args):
         raise NotImplementedError
 
     def draw(self, screen):
@@ -45,8 +51,8 @@ class IsometricButton:
             self.once = False
 
             #  set the colour to something other than white
-            if self.callback(x, y) != None:
-                color = RED_DARK
+            if (c := self.update_colour(x, y)) != None:
+                color = c
             else:
                 color = self.color
 

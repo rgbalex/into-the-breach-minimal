@@ -35,6 +35,9 @@ class BaseEntity:
     x = -1
     y = -1
 
+    # This will raise an error if rendered as colour is not valid
+    colour = (-1, -1, -1)
+
     player = PlayerType.UNDEF
     default_health = -1
     default_damage = -1
@@ -72,6 +75,9 @@ class BaseEntity:
         x, y = position
         self.x = x
         self.y = y
+
+    def get_colour(self):
+        return self.colour
 
     def get_available_moves(self):
         raise NotImplementedError

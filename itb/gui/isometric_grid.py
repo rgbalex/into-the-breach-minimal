@@ -1,13 +1,17 @@
 import os, pygame
+from typing import Optional
 
 from dotenv import load_dotenv
 
 from itb.board import Board
+from itb.entities import EntityDictionary
 from itb.gui.isometric_button import IsometricButton
-from itb.gui.colours import BLACK, GREY, GREY_DARK, WHITE
+from itb.gui.colours import *
 
 
 class IsometricGrid:
+    entity_dict = EntityDictionary()
+
     def __init__(self, screen_width, screen_height, board: Board):
         load_dotenv()
         pygame.init()
@@ -36,13 +40,25 @@ class IsometricGrid:
             self.draw()
         pygame.quit()
 
-    def foobar(self, x, y):
-        e = self.game_board.get_entity_by_coords(x, y)
-        # print(f"{e} at (x,y) ({x},{y})")
-        return e
+    def calculate_entity_color(self, x, y) -> Optional[tuple[int, int, int]]:
+        entity = self.game_board.get_entity_by_coords(x, y)
+        if entity is not None:
+            return self.entity_dict.get_default_colour(entity[0])
+        return None
+
+    def get_entity_by_coords(self, x, y) -> Optional[tuple[int]]:
+        print(self.game_board.get_entity_by_coords(x, y))
 
     def create_button(self, x, y, width, height, color):
-        button = IsometricButton(x, y, width, height, color, callback=self.foobar)
+        button = IsometricButton(
+            x,
+            y,
+            width,
+            height,
+            color,
+            callback=self.get_entity_by_coords,
+            update_colour=self.calculate_entity_color,
+        )
         self.buttons.append(button)
         return button
 
