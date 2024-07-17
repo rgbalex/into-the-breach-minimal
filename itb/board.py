@@ -13,11 +13,13 @@ class Board:
     _l = LevelImporter()
     _state = None
     _root = None
+    _ramdomise = False
 
-    def __init__(self, level_to_load: str):
+    def __init__(self, level_to_load: str, randomise: bool = False):
         if level_to_load is not None:
             self._l.load_level(level_to_load)
             self.import_level(self._l.get_tiles(), self._l.get_entities())
+        self._ramdomise = randomise
 
     def import_level(self, map_data: list[list[int]], entities: list[tuple[int]]):
         self._tiles = map_data
@@ -59,18 +61,22 @@ class Board:
         return_value: MinimaxResult = None
         current_value: MinimaxResult = None
 
-        if n := node.get_player() == maximisingPlayer:
-            print(n)
+        if node.get_player() == maximisingPlayer:
             return_value = MinimaxResult(-np.inf, None)
             for child in node:
                 current_value = self.minimax(child, maximisingPlayer, depth - 1)
+                if (current_value.value == return_value.value) and self._ramdomise:
+                    if np.random.choice([True, False]):
+                        return_value = current_value
                 if current_value.value > return_value.value:
                     return_value = current_value
         else:
-            print(n)
             return_value = MinimaxResult(np.inf, None)
             for child in node:
                 current_value = self.minimax(child, maximisingPlayer, depth - 1)
+                if (current_value.value == return_value.value) and self._ramdomise:
+                    if np.random.choice([True, False]):
+                        return_value = current_value
                 if current_value.value < return_value.value:
                     return_value = current_value
         return return_value

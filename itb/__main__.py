@@ -61,18 +61,17 @@ class Main:
         # Collect the nodes in the path from the root to the selected node
         out = {}
         max_depth = s.board.get_root().get_depth()
-        out[0] = (
-            f"leaf {max_depth - n._depth} {n._player} {n._state._entities} {n._score}"
+        out[max_depth] = (
+            f"{max_depth - n._depth} {n._player} {n._state._entities} {n._score}"
         )
         while n != None:
             n = n.get_parent()
             if n != None:
-                out[n._depth] = (
-                    f"{max_depth - n._depth} {n._player} {n._state._entities} {n._score}"
-                )
+                move = max_depth - n._depth
+                out[move] = f"{move} {n._player} {n._state._entities} {n._score}"
 
         # Print the nodes in the path from the root to the selected node
-        for i in range(len(out) - 1, -1, -1):
+        for i in range(len(out)):
             print(out[i])
 
 
