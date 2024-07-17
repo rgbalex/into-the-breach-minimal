@@ -11,6 +11,8 @@ class EntityType(Enum):
     BUG_MELEE = 4
     BUG_SHOOTER = 5
     BUG_ELITE = 6
+    # Objectives
+    BUILDING = 7
 
 
 class PlayerType(Enum):
