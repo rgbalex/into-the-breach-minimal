@@ -1,8 +1,10 @@
 import pygame
 
+from itb.gui.colours import *
+
 
 class IsometricButton:
-    def __init__(self, x, y, width, height, color):
+    def __init__(self, x, y, width, height, color, callback=None):
         self.once = False
         self.coords = (None, None)
         self.x = x
@@ -20,18 +22,33 @@ class IsometricButton:
         self.iso_right = self.x + (self.width / 2)
         self.iso_bottom = self.y - (self.height / 3)
 
+        if callback is not None:
+            self.callback = callback
+
+    def callback(self):
+        raise NotImplementedError
+
     def draw(self, screen):
+        x, y = self.coords
         if self.is_pressed:
             color = self.pressed_color
             if not self.once:
-                print(self.coords)
+                try:
+                    self.callback(x, y)
+                except NotImplementedError:
+                    pass
                 self.once = True
         elif self.is_hovered:
             self.once = False
             color = self.hover_color
         else:
             self.once = False
-            color = self.color
+
+            #  set the colour to something other than white
+            if self.callback(x, y) != None:
+                color = RED_DARK
+            else:
+                color = self.color
 
         pygame.draw.polygon(
             screen,

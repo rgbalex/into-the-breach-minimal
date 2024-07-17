@@ -1,7 +1,7 @@
-import json
-import itertools
 import os
+import itertools
 
+from typing import Optional
 from itb.entities import PlayerType, EntityDictionary
 
 
@@ -134,3 +134,9 @@ class State:
         filtered_moves = itertools.filterfalse(process_moves, all_moves)
 
         return list(filtered_moves)
+
+    def get_entity_by_coords(self, x: int, y: int) -> Optional[tuple[int]]:
+        for e in self._entities:
+            if e[2] == x and e[3] == y:
+                return e
+        return None

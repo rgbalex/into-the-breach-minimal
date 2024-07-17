@@ -2,12 +2,13 @@ import os, pygame
 
 from dotenv import load_dotenv
 
+from itb.board import Board
 from itb.gui.isometric_button import IsometricButton
 from itb.gui.colours import BLACK, GREY, GREY_DARK, WHITE
 
 
 class IsometricGrid:
-    def __init__(self, screen_width, screen_height, board):
+    def __init__(self, screen_width, screen_height, board: Board):
         load_dotenv()
         pygame.init()
 
@@ -23,7 +24,7 @@ class IsometricGrid:
         self.display_board = [[None for _ in range(8)] for _ in range(8)]
         self.font = pygame.font.Font(None, 36)
 
-        self.game_board = board
+        self.game_board: Board = board
 
     def run(self):
         self.create_board(
@@ -35,8 +36,13 @@ class IsometricGrid:
             self.draw()
         pygame.quit()
 
+    def foobar(self, x, y):
+        e = self.game_board.get_entity_by_coords(x, y)
+        # print(f"{e} at (x,y) ({x},{y})")
+        return e
+
     def create_button(self, x, y, width, height, color):
-        button = IsometricButton(x, y, width, height, color)
+        button = IsometricButton(x, y, width, height, color, callback=self.foobar)
         self.buttons.append(button)
         return button
 

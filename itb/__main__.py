@@ -7,7 +7,6 @@ from itb.gui.isometric_grid import IsometricGrid
 
 
 class Main:
-
     SCREEN_WIDTH = 1027 // 2 * 3
     SCREEN_HEIGHT = 1000 // 4 * 5
     level_to_load = "itb/maps/test-04.txt"
@@ -16,7 +15,7 @@ class Main:
     serialise = True
     dump_output_txt = False
 
-    board = Board(level_to_load)
+    board = Board(level_to_load, randomise=True)
     grid = IsometricGrid(SCREEN_WIDTH, SCREEN_HEIGHT, board)
     serialiser = Serialiser()
     level_importer = LevelImporter()
@@ -26,7 +25,7 @@ class Main:
             print(*args)
 
     def run(s):
-        # s.grid.run()
+        s.grid.run()
 
         s.print(s.board)
 

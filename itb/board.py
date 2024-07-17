@@ -1,3 +1,4 @@
+from typing import Optional
 import numpy as np
 
 from itb.minimax_result import MinimaxResult
@@ -35,6 +36,9 @@ class Board:
         print(f"Depth of the tree: {self._root.get_depth()}")
         print(f"Number of nodes in the tree: {self._root.count_nodes()}")
         print(f"Number of leaf nodes in the tree: {self._root.count_leaf_nodes()}")
+
+    def get_entity_by_coords(self, x: int, y: int) -> Optional[tuple[int]]:
+        return self._state.get_entity_by_coords(x, y)
 
     def get_root(self):
         return self._root
