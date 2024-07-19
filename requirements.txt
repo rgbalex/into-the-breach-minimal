@@ -4,3 +4,4 @@ pre-commit
 coverage-badge
 numpy
 pygame
+python-dotenv
