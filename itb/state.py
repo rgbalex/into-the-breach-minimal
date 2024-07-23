@@ -88,9 +88,6 @@ class State:
                 ):
                     if entity[0] != 7:
                         # If the move would put the entity on a tile with another entity, the move is invalid
-                        print(
-                            f"Entity {entity[0]} cannot move to {e.x + move[0], e.y + move[1]}"
-                        )
                         continue
                     # if the entity is a building, it can move to its own tile on top of itself
 

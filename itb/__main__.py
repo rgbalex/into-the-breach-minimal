@@ -15,6 +15,7 @@ class Main:
     verbose = False
     serialise = True
     dump_output_txt = False
+    show_gui = True
 
     board = Board(level_to_load, randomise=True)
     grid = IsometricGrid(SCREEN_WIDTH, SCREEN_HEIGHT, board)
@@ -26,7 +27,8 @@ class Main:
             print(*args)
 
     def run(s):
-        # s.grid.run()
+        if s.show_gui:
+            s.grid.run()
 
         s.print(s.board)
 
