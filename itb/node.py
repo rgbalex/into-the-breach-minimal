@@ -20,7 +20,7 @@ class Node:
     string_buff = ""
 
     def is_enemy_entity_type(self, playerType: int) -> bool:
-        if playerType in {1, 2, 3}:
+        if playerType in {1, 2, 3, 7}:
             return True if self._player == PlayerType.MECH else False
         elif playerType in {4, 5, 6}:
             return True if self._player == PlayerType.BUG else False

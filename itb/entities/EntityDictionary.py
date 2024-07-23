@@ -10,6 +10,7 @@ class EntityDictionary:
         self.entity_dict[EntityType.BUG_MELEE] = BugMelee
         # self.entity_dict[EntityType.BUG_SHOOTER] = BugShooter
         # self.entity_dict[EntityType.BUG_ELITE] = BugElite
+        self.entity_dict[EntityType.BUILDING] = Building
 
     def create_entity(self, ctor: tuple[int, int, int, int]):
         return self.entity_dict[EntityType(ctor[0])](ctor)

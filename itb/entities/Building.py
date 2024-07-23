@@ -3,7 +3,7 @@ from .BaseEntity import BaseEntity, PlayerType
 
 class Building(BaseEntity):
     def get_available_moves(self):
-        return []
+        return [(0, 0)]
 
     def get_available_attacks(self):
         return []

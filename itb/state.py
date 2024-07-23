@@ -2,7 +2,7 @@ import os
 import itertools
 
 from typing import Optional
-from itb.entities import PlayerType, EntityDictionary
+from itb.entities import BaseEntity, PlayerType, EntityDictionary
 
 
 class State:
@@ -64,7 +64,7 @@ class State:
             yield [i[0], i[1], i[2], i[3]]
 
     def get_valid_entity_moves(self, entity: tuple[int]):
-        e = self._entity_dict.create_entity(entity)
+        e: BaseEntity = self._entity_dict.create_entity(entity)
         for move in e.get_available_moves():
             try:
                 if e.x + move[0] < 0 or e.y + move[1] < 0:
@@ -86,8 +86,13 @@ class State:
                         ]
                     ]
                 ):
-                    # If the move would put the entity on a tile with another entity, the move is invalid
-                    continue
+                    if entity[0] != 7:
+                        # If the move would put the entity on a tile with another entity, the move is invalid
+                        print(
+                            f"Entity {entity[0]} cannot move to {e.x + move[0], e.y + move[1]}"
+                        )
+                        continue
+                    # if the entity is a building, it can move to its own tile on top of itself
 
                 yield (entity[0], entity[1], e.x + move[0], e.y + move[1])
 
@@ -102,9 +107,8 @@ class State:
 
         moving_entities = []
         no_valid_moves = True
-
         for e in self._entities:
-            entity = self._entity_dict.create_entity(e)
+            entity: BaseEntity = self._entity_dict.create_entity(e)
             # Perhaps map the is_enemy function to a fresh list of entities
             # then check if false is in list then run
             # This avoids the need for the flag and constant check

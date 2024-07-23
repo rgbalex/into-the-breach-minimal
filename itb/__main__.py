@@ -26,7 +26,7 @@ class Main:
             print(*args)
 
     def run(s):
-        s.grid.run()
+        # s.grid.run()
 
         s.print(s.board)
 
@@ -70,7 +70,7 @@ class Main:
                 out[move] = f"{move} {n._player} {n._state._entities} {n._score}"
 
         # Print the nodes in the path from the root to the selected node
-        for i in range(len(out)):
+        for i in out.keys():
             print(out[i])
 
         if s.serialise:
