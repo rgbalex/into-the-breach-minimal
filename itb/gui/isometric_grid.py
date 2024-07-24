@@ -68,6 +68,9 @@ class IsometricGrid:
         measure = self.create_button(8196, 8196, 150, 150, GREY)
         for i in range(len(self.display_board)):
             for j in range(len(self.display_board)):
+                if self.game_board.get_tile(i, j) == 0:
+                    self.display_board[j][i] = None
+                    continue
                 x = (i + j) * (measure.width / 2)
                 y = (j - i) * (measure.height / 3)
 
@@ -85,6 +88,8 @@ class IsometricGrid:
         pad_vertical = 5
         for i in range(8):
             item: IsometricButton = self.display_board[i][0]
+            if item is None:
+                continue
             pygame.draw.polygon(
                 self.screen,
                 GREY_DARK,
@@ -99,6 +104,8 @@ class IsometricGrid:
         pad_vertical = 5
         for i in range(8):
             item: IsometricButton = self.display_board[7][i]
+            if item is None:
+                continue
             pygame.draw.polygon(
                 self.screen,
                 WHITE,
@@ -118,6 +125,8 @@ class IsometricGrid:
         self.screen.blit(text, text_rect)
 
         for i in range(8):
+            if self.display_board[0][i] is None:
+                continue
             text = self.font.render(f"{i}", True, BLACK)
             text_rect = text.get_rect(
                 center=(self.display_board[0][i].x - 50, self.display_board[0][i].y)
@@ -131,6 +140,8 @@ class IsometricGrid:
         self.screen.blit(text, text_rect)
 
         for i in range(8):
+            if self.display_board[i][0] is None:
+                continue
             text = self.font.render(f"{i}", True, WHITE)
             text_rect = text.get_rect(
                 center=(
@@ -152,7 +163,10 @@ class IsometricGrid:
             if event.type == pygame.QUIT:
                 return False
             for row in self.display_board:
+                button: IsometricButton
                 for button in row:
+                    if button is None:
+                        continue
                     button.handle_event(event)
         return True
 
@@ -160,6 +174,8 @@ class IsometricGrid:
         self.screen.fill(BLACK)
         for row in self.display_board:
             for button in row:
+                if button is None:
+                    continue
                 button.draw(self.screen)
         self.draw_sides()
         self.draw_title()
