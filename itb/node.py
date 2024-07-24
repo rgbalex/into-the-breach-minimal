@@ -100,16 +100,15 @@ class Node:
         # Edit score based on entity proximity
         #   Base score for entities that are close to the enemy
         #   Note: Max score from this is 4 as sqrt(sum(dx, dy)) = sqrt(16) = 4
-        # TODO: Change this to be based on objectives
         for f in friendlyEntities:
             for e in enemyEntities:
                 distance = math.sqrt(abs(f[2] - e[2]) + abs(f[3] - e[3]))
                 calculated_weight_score += weight_max_distance * (4 - distance)
         score += calculated_weight_score * weight_max_distance
 
-        # TODO: Edit score based on attacks on enemies possible
-        f: BaseEntity  # For typechecking suggestions
+        # Edit score based on attacks on enemies possible
         # For every friendly entity
+        f: BaseEntity  # To ensure typechecking
         for f in friendlyEntities:
             # Get all possible attacks
             possible_attacks = self.entity_dict.create_entity(f).get_available_attacks()

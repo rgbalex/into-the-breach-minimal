@@ -12,10 +12,10 @@ class EntityDictionary:
         # self.entity_dict[EntityType.BUG_ELITE] = BugElite
         self.entity_dict[EntityType.BUILDING] = Building
 
-    def create_entity(self, ctor: tuple[int, int, int, int]):
+    def create_entity(self, ctor: tuple[int, int, int, int]) -> BaseEntity:
         return self.entity_dict[EntityType(ctor[0])](ctor)
 
-    def get_default_health(self, entity_type: int):
+    def get_default_health(self, entity_type: int) -> int:
         return self.create_entity((entity_type, 0, 0, 0)).get_health()
 
     def get_default_colour(self, entity_type: int) -> tuple[int, int, int]:
