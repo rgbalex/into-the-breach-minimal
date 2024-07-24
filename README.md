@@ -32,7 +32,7 @@ To install and run this project, follow these steps:
 Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+This project is licensed under the MIT License. See the [license](LICENSE.md) file for more information.
 
 ## Acknowledgements
 Special thanks to Subset Games for creating the original Into the Breach game.
