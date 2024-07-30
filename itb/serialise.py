@@ -17,7 +17,7 @@ class Serialiser:
                 pprint.pformat(
                     json_str,
                     indent=4,
-                    width=230,
+                    width=300,
                     sort_dicts=False,
                     compact=False,
                 ).replace("'", '"')
