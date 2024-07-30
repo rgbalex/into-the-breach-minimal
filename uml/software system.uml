@@ -1,0 +1,96 @@
+@startuml
+package "Software System" {
+    class Board {
+        +tiles
+        +root_of_tree : Node
+        +current_state : State
+        +level_importer
+        +entity_dictionary
+
+        +import_level()
+        +minimax()
+    }
+
+    class State {
+        +tiles
+        +entities
+        +entity_dictionary
+
+        +get_valid_entity_moves()
+    }
+
+    class Node {
+        +state
+        +weight
+        +parent
+        +childeren[Nodes]
+
+        +calculate_value()
+    }
+
+    class Serialisation {
+        +tree
+        +serialise()
+    }
+
+    class LevelImporter {
+        +tiles
+        +entities
+        +load_level()
+    }
+
+    class EntityDictionary {
+        +entity_dictionary
+        +create_entity()
+    }
+
+    class IsometricGrid {
+        +entity_dictionary
+        +display_board
+        +screen
+        +font
+        +...
+
+        +handle_events()
+        +setup()
+        +run()
+    }
+
+    abstract class BaseEntity {
+        +type
+        +health
+        +player
+        +default_health
+        +default_damage
+        
+        +set_defaults()
+        +get_available_moves()
+        +get_available_attacks()
+        +...()
+    }
+}
+
+
+' Links
+Board --* State
+Board --* Node
+Node --* State
+Board --* EntityDictionary
+Board --* LevelImporter
+State --o BaseEntity
+
+' Inputs and Outputs
+note left of "Software System" 
+    Inputs: 
+    - User Selection of Piece
+    - User Selection of Move
+    - Selected with mouse
+end note
+
+note top of "Software System" 
+    Outputs:
+    - Result of MinimaxResult post calculation
+    - Updated display of board 
+    - Entity positions reflected in system
+end note
+@enduml
