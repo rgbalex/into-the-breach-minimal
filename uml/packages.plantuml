@@ -1,0 +1,64 @@
+@startuml packages
+set namespaceSeparator none
+package "itb" as itb {
+}
+package "itb.__main__" as itb.__main__ {
+}
+package "itb.board" as itb.board {
+}
+package "itb.entities" as itb.entities {
+}
+package "itb.entities.BaseEntity" as itb.entities.BaseEntity {
+}
+package "itb.entities.BugMelee" as itb.entities.BugMelee {
+}
+package "itb.entities.Building" as itb.entities.Building {
+}
+package "itb.entities.EntityDictionary" as itb.entities.EntityDictionary {
+}
+package "itb.entities.MechMelee" as itb.entities.MechMelee {
+}
+package "itb.level_importer" as itb.level_importer {
+}
+package "itb.minimax_result" as itb.minimax_result {
+}
+package "itb.node" as itb.node {
+}
+package "itb.serialise" as itb.serialise {
+}
+package "itb.state" as itb.state {
+}
+package "itb.tiles" as itb.tiles {
+}
+package "itb.tiles.BaseTile" as itb.tiles.BaseTile {
+}
+itb.__main__ --> itb.board
+itb.__main__ --> itb.entities
+itb.__main__ --> itb.level_importer
+itb.__main__ --> itb.minimax_result
+itb.__main__ --> itb.serialise
+itb.board --> itb.entities
+itb.board --> itb.entities.EntityDictionary
+itb.board --> itb.level_importer
+itb.board --> itb.minimax_result
+itb.board --> itb.node
+itb.board --> itb.state
+itb.entities --> itb.entities.BaseEntity
+itb.entities --> itb.entities.BugMelee
+itb.entities --> itb.entities.Building
+itb.entities --> itb.entities.EntityDictionary
+itb.entities --> itb.entities.MechMelee
+itb.entities.BugMelee --> itb.entities.BaseEntity
+itb.entities.Building --> itb.entities.BaseEntity
+itb.entities.EntityDictionary --> itb.entities
+itb.entities.MechMelee --> itb.entities.BaseEntity
+itb.minimax_result --> itb.node
+itb.node --> itb.entities
+itb.node --> itb.entities.BaseEntity
+itb.node --> itb.entities.EntityDictionary
+itb.node --> itb.state
+itb.state --> itb.entities
+itb.state --> itb.entities.BaseEntity
+itb.state --> itb.entities.EntityDictionary
+itb.tiles --> itb.tiles.BaseTile
+@enduml

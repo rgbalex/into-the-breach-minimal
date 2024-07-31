@@ -1,0 +1,138 @@
+@startuml classes
+set namespaceSeparator none
+class "BaseEntity" as itb.entities.BaseEntity.BaseEntity {
+  colour : tuple
+  default_damage : int
+  default_health : int
+  player : UNDEF
+  x : int
+  y : int
+  {abstract}get_available_attacks()
+  {abstract}get_available_moves()
+  get_colour()
+  get_health()
+  get_position()
+  get_type()
+  is_enemy(_type: EntityType)
+  {abstract}set_defaults()
+  set_health(health: int)
+  set_position(position: tuple[int, int])
+  set_type(type: EntityType)
+}
+class "BaseTile" as itb.tiles.BaseTile.BaseTile {
+  get_contents()
+  get_type()
+  set_contents(contents)
+  set_type(type: TileType)
+}
+class "Board" as itb.board.Board {
+  get_available_moves_depth(mode: PlayerType, depth: int)
+  get_entity_by_coords(x: int, y: int) -> Optional[tuple[int]]
+  get_root()
+  get_tile(x: int, y: int) -> int
+  import_level(map_data: list[list[int]], entities: list[tuple[int]])
+  minimax(node: Node, maximisingPlayer: PlayerType, depth)
+  set_tile(x: int, y: int, tile: int)
+  summary()
+}
+class "BugMelee" as itb.entities.BugMelee.BugMelee {
+  colour : tuple
+  default_damage : int
+  default_health : int
+  player : BUG
+  get_available_attacks()
+  get_available_moves()
+  set_defaults()
+}
+class "Building" as itb.entities.Building.Building {
+  colour : tuple
+  default_damage : int
+  default_health : int
+  player : MECH
+  get_available_attacks()
+  get_available_moves()
+  set_defaults()
+}
+class "EntityType" as itb.entities.BaseEntity.EntityType {
+  name
+}
+class "LevelImporter" as itb.level_importer.LevelImporter {
+  get_entities() -> list[tuple[int]]
+  get_tiles() -> list[list[int]]
+  load_level(filename: str) -> list[list[int]]
+}
+class "Main" as itb.__main__.Main {
+  SCREEN_HEIGHT : int
+  SCREEN_WIDTH : int
+  board
+  dump_output_txt : bool
+  grid : IsometricGrid
+  level_importer
+  level_to_load : str
+  serialise : bool
+  serialiser
+  show_gui : bool
+  verbose : bool
+  print()
+  run()
+}
+class "MechMelee" as itb.entities.MechMelee.MechMelee {
+  colour : tuple
+  default_damage : int
+  default_health : int
+  player : MECH
+  get_available_attacks()
+  get_available_moves()
+  set_defaults()
+}
+class "MinimaxResult" as itb.minimax_result.MinimaxResult {
+  node
+  value : float
+}
+class "Node" as itb.node.Node {
+  entity_dict : EntityDictionary
+  string_buff : str
+  calculate_value() -> float
+  count_leaf_nodes() -> int
+  count_nodes() -> int
+  get_depth() -> int
+  get_parent() -> Optional['Node']
+  get_player() -> PlayerType
+  get_score() -> float
+  is_enemy_entity_type(playerType: int) -> bool
+  is_terminal() -> bool
+  to_json()
+}
+class "PlayerType" as itb.entities.BaseEntity.PlayerType {
+  name
+}
+class "Serialiser" as itb.serialise.Serialiser {
+  tree : NoneType
+  serialise(file)
+}
+class "State" as itb.state.State {
+  get_available_moves(mode: PlayerType)
+  get_entity_by_coords(x: int, y: int) -> Optional[tuple[int]]
+  get_valid_entity_moves(entity: tuple[int])
+  list_entities()
+  to_json()
+}
+class "TileType" as itb.tiles.BaseTile.TileType {
+  name
+}
+itb.entities.BugMelee.BugMelee --|> itb.entities.BaseEntity.BaseEntity
+itb.entities.Building.Building --|> itb.entities.BaseEntity.BaseEntity
+itb.entities.MechMelee.MechMelee --|> itb.entities.BaseEntity.BaseEntity
+itb.board.Board --* itb.__main__.Main : board
+itb.entities.BaseEntity.EntityType --* itb.entities.BaseEntity.BaseEntity : _type
+itb.level_importer.LevelImporter --* itb.__main__.Main : level_importer
+itb.level_importer.LevelImporter --* itb.board.Board : _l
+itb.node.Node --* itb.serialise.Serialiser : tree
+itb.serialise.Serialiser --* itb.__main__.Main : serialiser
+itb.tiles.BaseTile.TileType --* itb.tiles.BaseTile.BaseTile : _type
+itb.entities.BaseEntity.PlayerType --o itb.node.Node : _player
+itb.node.Node --o itb.board.Board : _root
+itb.node.Node --o itb.minimax_result.MinimaxResult : node
+itb.state.State --o itb.board.Board : _state
+itb.state.State --o itb.node.Node : _state
+@enduml

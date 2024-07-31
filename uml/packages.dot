@@ -1,0 +1,49 @@
+digraph "packages" {
+rankdir=BT
+charset="utf-8"
+"itb" [color="black", label=<itb>, shape="box", style="solid"];
+"itb.__main__" [color="black", label=<itb.__main__>, shape="box", style="solid"];
+"itb.board" [color="black", label=<itb.board>, shape="box", style="solid"];
+"itb.entities" [color="black", label=<itb.entities>, shape="box", style="solid"];
+"itb.entities.BaseEntity" [color="black", label=<itb.entities.BaseEntity>, shape="box", style="solid"];
+"itb.entities.BugMelee" [color="black", label=<itb.entities.BugMelee>, shape="box", style="solid"];
+"itb.entities.Building" [color="black", label=<itb.entities.Building>, shape="box", style="solid"];
+"itb.entities.EntityDictionary" [color="black", label=<itb.entities.EntityDictionary>, shape="box", style="solid"];
+"itb.entities.MechMelee" [color="black", label=<itb.entities.MechMelee>, shape="box", style="solid"];
+"itb.level_importer" [color="black", label=<itb.level_importer>, shape="box", style="solid"];
+"itb.minimax_result" [color="black", label=<itb.minimax_result>, shape="box", style="solid"];
+"itb.node" [color="black", label=<itb.node>, shape="box", style="solid"];
+"itb.serialise" [color="black", label=<itb.serialise>, shape="box", style="solid"];
+"itb.state" [color="black", label=<itb.state>, shape="box", style="solid"];
+"itb.tiles" [color="black", label=<itb.tiles>, shape="box", style="solid"];
+"itb.tiles.BaseTile" [color="black", label=<itb.tiles.BaseTile>, shape="box", style="solid"];
+"itb.__main__" -> "itb.board" [arrowhead="open", arrowtail="none"];
+"itb.__main__" -> "itb.entities" [arrowhead="open", arrowtail="none"];
+"itb.__main__" -> "itb.level_importer" [arrowhead="open", arrowtail="none"];
+"itb.__main__" -> "itb.minimax_result" [arrowhead="open", arrowtail="none"];
+"itb.__main__" -> "itb.serialise" [arrowhead="open", arrowtail="none"];
+"itb.board" -> "itb.entities" [arrowhead="open", arrowtail="none"];
+"itb.board" -> "itb.entities.EntityDictionary" [arrowhead="open", arrowtail="none"];
+"itb.board" -> "itb.level_importer" [arrowhead="open", arrowtail="none"];
+"itb.board" -> "itb.minimax_result" [arrowhead="open", arrowtail="none"];
+"itb.board" -> "itb.node" [arrowhead="open", arrowtail="none"];
+"itb.board" -> "itb.state" [arrowhead="open", arrowtail="none"];
+"itb.entities" -> "itb.entities.BaseEntity" [arrowhead="open", arrowtail="none"];
+"itb.entities" -> "itb.entities.BugMelee" [arrowhead="open", arrowtail="none"];
+"itb.entities" -> "itb.entities.Building" [arrowhead="open", arrowtail="none"];
+"itb.entities" -> "itb.entities.EntityDictionary" [arrowhead="open", arrowtail="none"];
+"itb.entities" -> "itb.entities.MechMelee" [arrowhead="open", arrowtail="none"];
+"itb.entities.BugMelee" -> "itb.entities.BaseEntity" [arrowhead="open", arrowtail="none"];
+"itb.entities.Building" -> "itb.entities.BaseEntity" [arrowhead="open", arrowtail="none"];
+"itb.entities.EntityDictionary" -> "itb.entities" [arrowhead="open", arrowtail="none"];
+"itb.entities.MechMelee" -> "itb.entities.BaseEntity" [arrowhead="open", arrowtail="none"];
+"itb.minimax_result" -> "itb.node" [arrowhead="open", arrowtail="none"];
+"itb.node" -> "itb.entities" [arrowhead="open", arrowtail="none"];
+"itb.node" -> "itb.entities.BaseEntity" [arrowhead="open", arrowtail="none"];
+"itb.node" -> "itb.entities.EntityDictionary" [arrowhead="open", arrowtail="none"];
+"itb.node" -> "itb.state" [arrowhead="open", arrowtail="none"];
+"itb.state" -> "itb.entities" [arrowhead="open", arrowtail="none"];
+"itb.state" -> "itb.entities.BaseEntity" [arrowhead="open", arrowtail="none"];
+"itb.state" -> "itb.entities.EntityDictionary" [arrowhead="open", arrowtail="none"];
+"itb.tiles" -> "itb.tiles.BaseTile" [arrowhead="open", arrowtail="none"];
+}
