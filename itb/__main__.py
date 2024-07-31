@@ -10,10 +10,10 @@ from itb.gui.isometric_grid import IsometricGrid
 class Main:
     SCREEN_WIDTH = 1027 // 2 * 3
     SCREEN_HEIGHT = 1000 // 4 * 5
-    level_to_load = "itb/maps/archive-inc-1.level"
+    level_to_load = "itb/maps/archive-inc-2.level"
 
     verbose = False
-    serialise = True
+    serialise = False
     dump_output_txt = False
     show_gui = True
 
@@ -33,7 +33,7 @@ class Main:
         s.print(s.board)
 
         s.print("== Enemy's turn == ")
-        s.board.get_available_moves_depth(PlayerType.BUG, 2)
+        s.board.get_available_moves_depth(PlayerType.BUG, 1)
         s.board.summary()
         s.serialiser.tree = s.board.get_root()
 
